@@ -1,0 +1,278 @@
+📘 PROJECT REPORT: Target Bio Classes – Full EdTech LMS Platform
+(React + Node.js Based Coaching Management System)
+1. Project Overview
+
+Target Bio Classes LMS is a full-stack EdTech platform designed for coaching institutes (NEET, JEE, Class 10-12).
+The system provides Student Registration with OTP, Secure Login, Course Demos, Payment Upload, Teacher Verification, Content Management, and Student Dashboard — fully managed through a PW-style modern UI.
+
+The website supports:
+
+Student registration using Email OTP
+
+Auto-generated User ID + Password
+
+Course listing and demo content for unpaid users
+
+Complete content access after payment approval
+
+Teacher dashboard to upload Videos, Notes, DPPs, Tests
+
+Admission form, enquiry management, and chat-query system
+
+UPI QR payment with receipt upload
+
+Student dashboard with purchase status & unlocked courses
+
+2. Objectives of the Project
+
+Build a complete online portal for coaching institutes.
+
+Provide secure user authentication through OTP.
+
+Allow teachers to manage all academic content.
+
+Give students an easy-to-use portal with course access.
+
+Make payments transparent through teacher verification.
+
+Provide a modern, responsive, fast UI like PW / Unacademy.
+
+3. Technology Stack
+Frontend (Student + Teacher Panel)
+
+React.js
+
+React Router
+
+Tailwind / Custom CSS
+
+Fetch API
+
+Backend
+
+Node.js
+
+Express.js
+
+File-based database (JSON) or MongoDB (optional)
+
+Email + OTP System
+
+Nodemailer
+
+Gmail SMTP / Custom SMTP
+
+Storage
+
+Local JSON data files:
+
+users.json
+
+otp.json
+
+courses.json
+
+videos.json
+
+notes.json
+
+dpp.json
+
+tests.json
+
+purchases.json
+
+admissions.json
+
+enquiries.json
+
+4. System Architecture
+Student → Register → OTP → Create Account → Login → Demo Courses → Pay → Upload Screenshot  
+Teacher → Verify Payment → Approve / Reject → Unlock Course  
+Student → Course Dashboard → Full Content Access
+
+Data flows from frontend to backend through REST API endpoints.
+
+5. Features (Full Details)
+Student Panel
+✔ Registration with OTP
+
+Student enters email + phone
+
+Enters captcha
+
+Receives OTP on email
+
+After OTP verification → system auto generates User ID & Password
+
+✔ Login System
+
+Student enters User ID & Password
+
+Dashboard opens
+
+✔ Course Page
+
+Before payment → only demo videos, demo notes, demo DPP
+
+After payment approval → full content unlocked
+
+✔ Payment System
+
+UPI ID & QR code shown
+
+Student uploads:
+
+Payment screenshot
+
+Name
+
+Phone
+
+UPI Transaction ID
+
+Status shown in dashboard (Pending / Approved / Rejected)
+
+✔ Admission Form
+
+Student fills complete details
+
+Stored in backend
+
+Teacher can view admission reports
+
+✔ Enquiry Form
+
+Students can submit doubts
+
+Teacher receives messages in teacher panel
+
+Teacher replies → Student sees reply in My Messages
+
+Teacher Panel
+✔ Teacher Login
+
+Secure login for Director / Assistant Director / Developer.
+
+✔ Course Management
+
+Add new course
+
+Delete course
+
+Make course private/public
+
+Update price
+
+✔ Content Upload
+
+YouTube video link upload
+
+PDF Notes upload
+
+DPP upload
+
+Tests upload
+
+Demo & Full content separately
+
+✔ Payment Verification
+
+See all pending student payments
+
+Approve / Reject
+
+Automatic email notification to student
+
+✔ Admission Report
+
+All submitted admission forms
+
+Export to Excel
+
+✔ Enquiry Management
+
+See all student questions
+
+Reply system
+
+6. Step-by-Step Development Process
+Step 1 – Setup Project Folder
+
+Create two folders:
+student-frontend
+student-backend
+
+
+Step 2 – Install React (Frontend)
+npx create-react-app student-frontend
+
+Step 3 – Install Node.js Backend
+npm init -y
+npm install express cors nodemailer dotenv
+
+Step 4 – Create Backend Files
+
+server.js
+
+data/ (JSON files)
+
+Step 5 – Build OTP System
+
+Route: /api/student/send-otp
+
+Save OTP in otp.json
+
+Send email through nodemailer
+
+Verify OTP → create new student account
+
+Step 6 – Build Login System
+
+Route: /api/student/login
+
+Step 7 – Course Demo + Full Content System
+
+/api/videos
+
+/api/notes
+
+/api/dpp
+
+/api/tests
+
+Frontend decides demo/full based on payment status.
+
+Step 8 – Payment System
+
+Student submits payment details
+
+Teacher verifies
+
+If approved → unlock course
+
+Step 9 – Teacher Panel
+
+Add course
+
+Upload academic content
+
+Manage payments
+
+Manage enquiries
+
+Manage admissions
+
+Step 10 – Deployment
+
+Host backend on Render
+
+Host frontend on Netlify / Vercel
+
+Connect APIs
+
+7. Conclusion
+
+This LMS project is a complete digital solution for coaching institutes.
+It automates admission, content delivery, payments, teacher management, and student learning.
+The system is scalable, secure, and modern — suitable for real production use.
