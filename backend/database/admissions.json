@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1767671964224,
+    "name": "ABHINASH SINHA",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "7250632523",
+    "courseId": "1",
+    "paymentProof": "/uploads/1767671964209-abhinash formal pic.jpg",
+    "status": "APPROVED"
+  },
+  {
+    "id": 1767672471120,
+    "name": "ABHINASH SINHA",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "7250632523",
+    "courseId": "1",
+    "paymentProof": "/uploads/1767672471110-7a1c902f988428c882a6d89226e8fe2f.jpg",
+    "status": "APPROVED"
+  },
+  {
+    "id": 1767672833572,
+    "name": "ANVI SINHA",
+    "fatherName": "SONU SINHA",
+    "fullAddress": "MAHESHPUR",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "7250632523",
+    "courseId": "1",
+    "paymentProof": "/uploads/1767672833563-ABHINASH PIC.jpg",
+    "status": "APPROVED"
+  },
+  {
+    "id": 1767673177433,
+    "name": "ANVI SINHA",
+    "fatherName": "SONU SINHA",
+    "fullAddress": "MAHESHPUR",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "7250632523",
+    "courseId": "1",
+    "paymentProof": "/uploads/1767673177422-abhinash formal pic.jpg",
+    "status": "APPROVED"
+  },
+  {
+    "id": 1767701499046,
+    "name": "dsf",
+    "fatherName": "frfcbh",
+    "fullAddress": "dser",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "sdfbgf",
+    "courseId": "1",
+    "paymentProof": "/uploads/1767701498995-7a1c902f988428c882a6d89226e8fe2f.jpg",
+    "status": "REJECTED"
+  }
+]

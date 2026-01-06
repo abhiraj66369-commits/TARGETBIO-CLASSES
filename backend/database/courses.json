@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Biology NEET",
+    "description": "Complete NEET biology preparation with videos, notes & tests",
+    "paid": true
+  },
+  {
+    "id": 2,
+    "title": "Biology Demo",
+    "description": "Free demo classes for new students",
+    "paid": false
+  },
+  {
+    "id": 3,
+    "title": "Physics NEET",
+    "description": "Premium physics course for NEET aspirants",
+    "paid": true
+  },
+  {
+    "id": 1767548825645,
+    "title": "MATH 12TH",
+    "description": "Complete JEE MATH preparation with videos, notes & tests",
+    "price": "500"
+  },
+  {
+    "id": 1767668968983,
+    "title": "NEET Biology",
+    "description": "Complete NEET biology preparation with videos, notes & tests   ",
+    "price": "500"
+  },
+  {
+    "id": 1767686445585,
+    "title": "f",
+    "description": "f",
+    "price": "500"
+  }
+]

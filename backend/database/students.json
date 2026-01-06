@@ -1,0 +1,22 @@
+[
+  {
+    "id": 123456,
+    "name": "ABHINASH SINHA",
+    "email": "ka1794772@gmail.com",
+    "phone": "7250632523",
+    "password": "725063",
+    "courses": [
+      "1"
+    ]
+  },
+  {
+    "id": 155803,
+    "name": "ANVI SINHA",
+    "email": "abhiraj66369@gmail.com",
+    "phone": "7250632523",
+    "password": "81hegt1e",
+    "courses": [
+      "1"
+    ]
+  }
+]
