@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_BASE } from "../config";
 
 function CoursePreview() {
   const { id } = useParams();
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/content/${id}`)
+    fetch(`${API_BASE}/content/${id}`)
       .then((res) => res.json())
       .then((data) => {
         const freeContent = Array.isArray(data)
@@ -29,7 +30,7 @@ function CoursePreview() {
 
           {c.type === "video" && (
             <video
-              src={`http://localhost:5000${c.fileUrl}`}
+              src={`${API_BASE}${c.fileUrl}`}
               controls
               width="400"
             />
@@ -37,7 +38,7 @@ function CoursePreview() {
 
           {c.type === "pdf" && (
             <a
-              href={`http://localhost:5000${c.fileUrl}`}
+              href={`${API_BASE}${c.fileUrl}`}
               target="_blank"
               rel="noopener noreferrer"
             >

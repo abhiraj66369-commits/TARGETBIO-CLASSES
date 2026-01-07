@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/courseContent.css";
+import { API_BASE } from "../config";
 
 function CourseContent() {
   const { id } = useParams();
@@ -14,10 +15,12 @@ function CourseContent() {
   }
 
   const hasAccess =
-    student && Array.isArray(student.courses) && student.courses.includes(Number(id));
+    student &&
+    Array.isArray(student.courses) &&
+    student.courses.includes(Number(id));
 
   useEffect(() => {
-    fetch(`http://localhost:5000/content/${id}`)
+    fetch(`${API_BASE}/content/${id}`)
       .then((res) => res.json())
       .then((data) => setContent(data))
       .catch(() => setContent([]));
@@ -27,7 +30,7 @@ function CourseContent() {
     if (c.type === "video") {
       return (
         <video
-          src={`http://localhost:5000${c.fileUrl}`}
+          src={`${API_BASE}${c.fileUrl}`}
           controls
           style={{ width: "100%" }}
         />
@@ -37,7 +40,7 @@ function CourseContent() {
     if (c.type === "pdf") {
       return (
         <a
-          href={`http://localhost:5000${c.fileUrl}`}
+          href={`${API_BASE}${c.fileUrl}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -49,7 +52,7 @@ function CourseContent() {
     if (c.type === "image") {
       return (
         <img
-          src={`http://localhost:5000${c.fileUrl}`}
+          src={`${API_BASE}${c.fileUrl}`}
           alt={c.title}
           style={{ width: "100%" }}
         />
@@ -57,15 +60,14 @@ function CourseContent() {
     }
 
     return (
-  <a
-    href={`http://localhost:5000${c.fileUrl}`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    ⬇ Download
-  </a>
-);
-
+      <a
+        href={`${API_BASE}${c.fileUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ⬇ Download
+      </a>
+    );
   };
 
   return (
