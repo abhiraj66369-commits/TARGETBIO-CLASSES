@@ -9,40 +9,79 @@ function CourseContent() {
   let student = null;
   try {
     student = JSON.parse(localStorage.getItem("student"));
-  } catch {}
+  } catch (err) {
+    student = null;
+  }
 
   const hasAccess =
-    student && student.courses?.includes(Number(id));
+    student && Array.isArray(student.courses) && student.courses.includes(Number(id));
 
   useEffect(() => {
     fetch(`http://localhost:5000/content/${id}`)
-      .then(res => res.json())
-      .then(data => setContent(data))
+      .then((res) => res.json())
+      .then((data) => setContent(data))
       .catch(() => setContent([]));
   }, [id]);
 
   const renderContent = (c) => {
-    if (c.type === "video")
-      return <video src={`http://localhost:5000${c.fileUrl}`} controls />;
+    if (c.type === "video") {
+      return (
+        <video
+          src={`http://localhost:5000${c.fileUrl}`}
+          controls
+          style={{ width: "100%" }}
+        />
+      );
+    }
 
-    if (c.type === "pdf")
-      return <a href={`http://localhost:5000${c.fileUrl}`} target="_blank" rel="noreferrer">📄 Open PDF</a>;
+    if (c.type === "pdf") {
+      return (
+        <a
+          href={`http://localhost:5000${c.fileUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          📄 Open PDF
+        </a>
+      );
+    }
 
-    if (c.type === "image")
-      return <img src={`http://localhost:5000${c.fileUrl}`} alt="" />;
+    if (c.type === "image") {
+      return (
+        <img
+          src={`http://localhost:5000${c.fileUrl}`}
+          alt={c.title}
+          style={{ width: "100%" }}
+        />
+      );
+    }
 
-    return <a href={`http://localhost:5000${c.fileUrl}`} target="_blank">Download</a>;
+    return (
+  <a
+    href={`http://localhost:5000${c.fileUrl}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    ⬇ Download
+  </a>
+);
+
   };
 
   return (
     <div className="course-content-page">
       <h2>Course Content</h2>
 
-      {content.map(c => {
+      {content.length === 0 && <p>No content available</p>}
+
+      {content.map((c) => {
         const locked = c.locked && !hasAccess;
 
         return (
-          <div key={c.id} className={`content-card ${locked ? "locked" : ""}`}>
+          <div
+            key={c.id}
+            className={`content-card ${locked ? "locked" : ""}`}
+          >
             <h4>{c.title}</h4>
 
             {locked ? (
