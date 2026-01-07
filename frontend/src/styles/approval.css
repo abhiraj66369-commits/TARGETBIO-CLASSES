@@ -1,0 +1,31 @@
+.approval-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 40px;
+}
+
+.approval-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.approval-card button {
+  margin-right: 10px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.approve {
+  background: #2ecc71;
+  color: white;
+}
+
+.reject {
+  background: #e74c3c;
+  color: white;
+}

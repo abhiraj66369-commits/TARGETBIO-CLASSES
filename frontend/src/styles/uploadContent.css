@@ -1,0 +1,85 @@
+.upload-wrapper {
+  min-height: 90vh;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.upload-card {
+  background: #020617;
+  padding: 30px;
+  border-radius: 14px;
+  width: 420px;
+  box-shadow: 0 0 30px rgba(0,0,0,.7);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-card h2 {
+  text-align: center;
+}
+
+.upload-card input,
+.upload-card select {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle button {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #1e293b;
+  color: white;
+}
+
+.toggle .active {
+  background: #22c55e;
+}
+
+.toggle .locked {
+  background: #ef4444;
+}
+
+.file-box {
+  border: 2px dashed #64748b;
+  padding: 14px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.preview {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.upload-card button {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}

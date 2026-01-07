@@ -1,0 +1,71 @@
+.course-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 30px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Banner */
+.course-banner {
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  color: white;
+  padding: 35px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+
+.course-banner h2 {
+  margin-bottom: 8px;
+}
+
+/* Tabs */
+.course-tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.course-tabs button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 20px;
+  background: #e0e0e0;
+  cursor: pointer;
+}
+
+.course-tabs button.active {
+  background: #1e88e5;
+  color: white;
+}
+
+/* Content List */
+.content-list {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.content-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.content-item:last-child {
+  border-bottom: none;
+}
+
+.content-item button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #1e88e5;
+  color: white;
+  cursor: pointer;
+}
+
+.content-item button.locked {
+  background: #aaa;
+}

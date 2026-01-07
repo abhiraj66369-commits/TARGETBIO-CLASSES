@@ -1,0 +1,29 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FULL HEIGHT LAYOUT */
+html, body {
+  height: 100%;
+}
+
+/* MAIN APP WRAPPER */
+.app-layout {
+  min-height: 100vh;      /* 👈 full screen */
+  display: flex;
+  flex-direction: column;
+}
+
+/* PAGE CONTENT */
+.page-content {
+  flex: 1;               /* 👈 ye footer ko niche push karega */
+  padding-bottom: 20px;
+}
+
+/* OPTIONAL */
+body {
+  font-family: Arial, sans-serif;
+}

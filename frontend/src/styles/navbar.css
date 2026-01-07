@@ -1,0 +1,159 @@
+/* ===== NAVBAR MAIN ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ===== LOGO ===== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.logo img {
+  height: 42px;
+}
+
+/* ===== NAV LINKS ===== */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+/* Normal links */
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* Hover underline animation */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -6px;
+  left: 0;
+  background: #6a5acd;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #6a5acd;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ===== STUDENT LOGIN BUTTON ===== */
+.login-btn {
+  background: linear-gradient(135deg, #6a5acd, #836fff);
+  color: #ffffff !important;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(106, 90, 205, 0.3);
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(106, 90, 205, 0.4);
+}
+
+/* ===== GURU BUTTON ===== */
+.guru-menu {
+  position: relative;
+}
+
+.guru-btn {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  color: #ffffff !important;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.guru-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 152, 0, 0.4);
+}
+
+/* ===== GURU DROPDOWN ===== */
+.guru-dropdown {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 2000;
+  animation: dropdownFade 0.25s ease;
+}
+
+.guru-dropdown a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.guru-dropdown a:hover {
+  background: #6a5acd;
+  color: #ffffff;
+}
+
+/* Dropdown animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .guru-dropdown {
+    right: auto;
+    left: 0;
+  }
+}

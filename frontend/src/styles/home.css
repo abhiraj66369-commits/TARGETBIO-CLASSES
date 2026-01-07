@@ -1,0 +1,147 @@
+/* GLOBAL */
+section {
+  padding: 80px 8%;
+}
+
+h1, h2 {
+  font-weight: 800;
+}
+
+.btn {
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.outline {
+  border: 2px solid #22c55e;
+  color: #22c55e;
+}
+
+.big {
+  font-size: 18px;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #020617, #020617);
+  color: white;
+  min-height: 90vh;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.badge {
+  background: #22c55e;
+  color: black;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.hero h1 span {
+  color: #22c55e;
+}
+
+.hero p {
+  margin: 20px 0;
+  color: #cbd5f5;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+}
+
+.stats h3 {
+  color: #22c55e;
+}
+
+/* HERO IMAGE */
+.hero-image img {
+  max-width: 450px;
+}
+
+/* WHY US */
+.why-us {
+  background: #f8fafc;
+  text-align: center;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.feature-card span {
+  font-size: 40px;
+}
+
+/* TEAM */
+.team {
+  text-align: center;
+}
+
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.team-card {
+  background: #020617;
+  color: white;
+  padding: 30px;
+  border-radius: 18px;
+}
+
+.team-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.team-card span {
+  color: #22c55e;
+  font-size: 14px;
+}
+
+/* CTA */
+.cta {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  text-align: center;
+  color: black;
+}
+
+.cta p {
+  margin: 15px 0 30px;
+}
