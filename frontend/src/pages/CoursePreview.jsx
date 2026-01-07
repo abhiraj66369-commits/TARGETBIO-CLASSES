@@ -7,11 +7,14 @@ function CoursePreview() {
 
   useEffect(() => {
     fetch(`http://localhost:5000/content/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        const freeContent = data.filter(c => !c.locked);
+      .then((res) => res.json())
+      .then((data) => {
+        const freeContent = Array.isArray(data)
+          ? data.filter((c) => !c.locked)
+          : [];
         setContent(freeContent);
-      });
+      })
+      .catch(() => setContent([]));
   }, [id]);
 
   return (
@@ -20,7 +23,7 @@ function CoursePreview() {
 
       {content.length === 0 && <p>No free content available</p>}
 
-      {content.map(c => (
+      {content.map((c) => (
         <div key={c.id} style={{ marginBottom: 20 }}>
           <h4>{c.title}</h4>
 
@@ -33,7 +36,11 @@ function CoursePreview() {
           )}
 
           {c.type === "pdf" && (
-            <a href={`http://localhost:5000${c.fileUrl}`} target="_blank">
+            <a
+              href={`http://localhost:5000${c.fileUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               📄 View PDF
             </a>
           )}
