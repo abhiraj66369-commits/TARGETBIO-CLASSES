@@ -16,7 +16,7 @@ function Dashboard() {
   useEffect(() => {
     if (!student) return;
 
-    fetch("http://localhost:5000/courses")
+    fetch("https://target-bio-classes.onrender.com/courses")
       .then(res => res.json())
       .then(data => {
         const enrolled = data.filter(c =>

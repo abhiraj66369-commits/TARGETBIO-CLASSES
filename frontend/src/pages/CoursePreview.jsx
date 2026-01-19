@@ -6,7 +6,7 @@ function CoursePreview() {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/course/${id}/content`)
+    fetch(`https://target-bio-classes.onrender.com/course/${id}/content`)
       .then(res => res.json())
       .then(data => {
         setContent(data.filter(c => !c.locked));

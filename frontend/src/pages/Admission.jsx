@@ -66,7 +66,7 @@ function Admission() {
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
     fd.append("paymentProof", paymentImage);
 
-    const res = await fetch("http://localhost:5000/admission", {
+    const res = await fetch("https://target-bio-classes.onrender.com/admission", {
       method: "POST",
       body: fd
     });
