@@ -8,27 +8,34 @@ function CourseContent() {
 
   const [content, setContent] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
-  const [progress, setProgress] = useState({ completed: [], lastContentId: null });
+  const [progress, setProgress] = useState({
+    completed: [],
+    lastContentId: null
+  });
 
   /* ================= FETCH CONTENT ================= */
   useEffect(() => {
     let url = `http://localhost:5000/course/${id}/content`;
-    if (student) url += `?studentId=${student.id}`;
+    if (student?.id) url += `?studentId=${student.id}`;
 
-    fetch(url).then(r => r.json()).then(setContent);
-  }, [id]);
+    fetch(url)
+      .then(r => r.json())
+      .then(setContent);
+  }, [id, student?.id]); // ✅ FIX
 
   /* ================= FETCH PROGRESS ================= */
   useEffect(() => {
-    if (!student) return;
+    if (!student?.id) return;
 
     fetch(`http://localhost:5000/progress/${student.id}/${id}`)
       .then(r => r.json())
       .then(setProgress);
-  }, [id]);
+  }, [id, student?.id]); // ✅ FIX
 
   /* ================= SAVE PROGRESS ================= */
   const saveProgress = (contentId, completed = false) => {
+    if (!student?.id) return;
+
     fetch("http://localhost:5000/progress/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,12 +59,14 @@ function CourseContent() {
     <div className="course-content-page">
       <h2 className="page-title">📚 Course Content</h2>
 
-      {/* FOLDERS */}
+      {/* CATEGORY FOLDERS */}
       <div className="folder-grid">
         {Object.keys(grouped).map(cat => (
           <div
             key={cat}
-            className={`folder-card ${activeCategory === cat ? "active" : ""}`}
+            className={`folder-card ${
+              activeCategory === cat ? "active" : ""
+            }`}
             onClick={() => setActiveCategory(cat)}
           >
             📁 {cat.toUpperCase()}
@@ -65,55 +74,56 @@ function CourseContent() {
         ))}
       </div>
 
-      {/* CONTENT */}
-      {activeCategory && grouped[activeCategory].map((c, i) => {
-        const completed = progress.completed.includes(c.id);
-        const isLast = progress.lastContentId === c.id;
+      {/* CONTENT LIST */}
+      {activeCategory &&
+        grouped[activeCategory].map((c, i) => {
+          const completed = progress.completed.includes(c.id);
+          const isLast = progress.lastContentId === c.id;
 
-        return (
-          <div
-            key={c.id}
-            className={`content-card ${isLast ? "last-watched" : ""}`}
-          >
-            <h4>
-              {i + 1}. {c.title}
-              {completed && <span className="done"> ✔</span>}
-            </h4>
+          return (
+            <div
+              key={c.id}
+              className={`content-card ${isLast ? "last-watched" : ""}`}
+            >
+              <h4>
+                {i + 1}. {c.title}
+                {completed && <span className="done"> ✔</span>}
+              </h4>
 
-            {c.locked ? (
-              <div className="locked-box">🔒 Locked</div>
-            ) : (
-              <>
-                {c.category === "video" && (
-                  <video
-                    src={`http://localhost:5000${c.fileUrl}`}
-                    controls
-                    onTimeUpdate={(e) => {
-                      const percent =
-                        (e.target.currentTime / e.target.duration) * 100;
-                      if (percent > 10) saveProgress(c.id);
-                      if (percent > 90) saveProgress(c.id, true);
-                    }}
-                    className="video-player"
-                  />
-                )}
+              {c.locked ? (
+                <div className="locked-box">🔒 Locked</div>
+              ) : (
+                <>
+                  {c.category === "video" && (
+                    <video
+                      src={`http://localhost:5000${c.fileUrl}`}
+                      controls
+                      className="video-player"
+                      onTimeUpdate={e => {
+                        const percent =
+                          (e.target.currentTime / e.target.duration) * 100;
+                        if (percent > 10) saveProgress(c.id);
+                        if (percent > 90) saveProgress(c.id, true);
+                      }}
+                    />
+                  )}
 
-                {c.category === "pdf" && (
-                  <a
-                    href={`http://localhost:5000${c.fileUrl}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => saveProgress(c.id, true)}
-                    className="pdf-btn"
-                  >
-                    📄 Open PDF
-                  </a>
-                )}
-              </>
-            )}
-          </div>
-        );
-      })}
+                  {c.category === "pdf" && (
+                    <a
+                      href={`http://localhost:5000${c.fileUrl}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => saveProgress(c.id, true)}
+                      className="pdf-btn"
+                    >
+                      📄 Open PDF
+                    </a>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 }
