@@ -17,6 +17,9 @@ import CoursePreview from "./pages/CoursePreview";
 import CourseContent from "./pages/CourseContent";
 // import OtpLogin from "./pages/OtpLogin";
 import ForgotPassword from "./pages/ForgotPassword";
+import StudentProfile from "./pages/StudentProfile";
+import TeacherAnalytics from "./pages/TeacherAnalytics";
+import CourseStudents from "./pages/CourseStudents";
 
 /* ===== TEACHER (GURU) PAGES ===== */
 import TeacherLogin from "./pages/TeacherLogin";
@@ -24,6 +27,7 @@ import TeacherRegister from "./pages/TeacherRegister";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherCourses from "./pages/TeacherCourses";
 import UploadContent from "./pages/UploadContent";
+import TeacherProfile from "./pages/TeacherProfile";
 
 import "./App.css";
 
@@ -42,6 +46,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             {/* <Route path="/register" element={<Register />} /> */}
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<StudentProfile />} />
             <Route path="/course" element={<CourseDetail />} />
             <Route path="/admission" element={<Admission />} />
             {/* <Route path="/otp-login" element={<OtpLogin />} /> */}
@@ -61,7 +66,9 @@ function App() {
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/course/:id/preview" element={<CoursePreview />} />
         <Route path="/course/:id/content" element={<CourseContent />} />
-
+        <Route path="/teacher-analytics" element={<TeacherAnalytics />} />
+        <Route path="/teacher/course-students" element={<CourseStudents />} />
+        <Route path="/teacher/profile" element={<TeacherProfile />} />
           </Routes>
         </div>
 

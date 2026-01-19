@@ -1,37 +1,38 @@
 import { useEffect, useState } from "react";
-import "../styles/admission.css";
+import "../styles/admissionClean.css";
 
 function Admission() {
+  const [step, setStep] = useState(1);
+  const [courses, setCourses] = useState([]);
+  const [paymentImage, setPaymentImage] = useState(null);
+
   const [form, setForm] = useState({
     name: "",
     fatherName: "",
+    fullAddress: "",
     phone: "",
     email: "",
     courseId: "",
     otp: ""
   });
 
-  const [courses, setCourses] = useState([]);
-  const [paymentImage, setPaymentImage] = useState(null);
-  const [step, setStep] = useState(1);
-
-  // 🔹 Fetch courses from backend
+  // 🔹 Fetch courses
   useEffect(() => {
     fetch("http://localhost:5000/courses")
       .then(res => res.json())
-      .then(data => setCourses(data))
+      .then(setCourses)
       .catch(() => setCourses([]));
   }, []);
 
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const selectedCourse = courses.find(
-    c => String(c.id) === String(form.courseId)
-  );
-
+  /* ================= OTP ================= */
   const sendOtp = async () => {
-    if (!form.courseId) return alert("Please select a course");
+    if (!form.email || !form.courseId) {
+      alert("Please fill email & select course");
+      return;
+    }
 
     const res = await fetch("http://localhost:5000/send-otp", {
       method: "POST",
@@ -42,7 +43,7 @@ function Admission() {
     const data = await res.json();
     if (!res.ok) return alert(data.message);
 
-    alert(data.message);
+    alert("OTP sent to your email");
     setStep(2);
   };
 
@@ -56,7 +57,7 @@ function Admission() {
     const data = await res.json();
     if (!res.ok) return alert(data.message);
 
-    alert(data.message);
+    alert("OTP verified");
     setStep(3);
   };
 
@@ -75,25 +76,35 @@ function Admission() {
   };
 
   return (
-    <div className="admission-container">
-      <div className="admission-card">
-        <h2>Student Admission</h2>
+    <div className="admission-page">
+      <div className="admission-box">
 
+        {/* HEADER */}
+        <div className="admission-header">
+          <h2>🎓 Student Admission</h2>
+          <p>Secure • OTP Verified • Teacher Approved</p>
+        </div>
+
+        {/* STEPS */}
+        <div className="steps">
+          <span className={step >= 1 ? "active" : ""}>1 Details</span>
+          <span className={step >= 2 ? "active" : ""}>2 OTP</span>
+          <span className={step >= 3 ? "active" : ""}>3 Payment</span>
+        </div>
+
+        {/* STEP 1 */}
         {step === 1 && (
-          <>
+          <div className="form-grid">
             <input name="name" placeholder="Student Name" onChange={handleChange} />
-            <input
-              name="fatherName"
-              placeholder="Father Name"
-              onChange={handleChange}
-            />
-            <input
+            <input name="fatherName" placeholder="Father Name" onChange={handleChange} />
+            <input name="phone" placeholder="Phone Number" onChange={handleChange} />
+            <input name="email" placeholder="Email Address" onChange={handleChange} />
+
+            <textarea
               name="fullAddress"
               placeholder="Full Address"
               onChange={handleChange}
             />
-            <input name="phone" placeholder="Phone" onChange={handleChange} />
-            <input name="email" placeholder="Email" onChange={handleChange} />
 
             <select name="courseId" onChange={handleChange}>
               <option value="">Select Course</option>
@@ -104,39 +115,44 @@ function Admission() {
               ))}
             </select>
 
-            {/* Course Preview */}
-            {selectedCourse && (
-              <div className="course-preview">
-                {selectedCourse.image && (
-                  <img
-                    src={`http://localhost:5000${selectedCourse.image}`}
-                    alt="course"
-                  />
-                )}
-                <p>
-                  <b>Price:</b> ₹{selectedCourse.price}
-                </p>
-              </div>
-            )}
-
-            <button onClick={sendOtp}>Send OTP</button>
-          </>
+            <button className="primary-btn" onClick={sendOtp}>
+              Send OTP →
+            </button>
+          </div>
         )}
 
+        {/* STEP 2 */}
         {step === 2 && (
-          <>
-            <input name="otp" placeholder="Enter OTP" onChange={handleChange} />
-            <button onClick={verifyOtp}>Verify OTP</button>
-          </>
+          <div className="form-grid">
+            <input
+              name="otp"
+              placeholder="Enter OTP"
+              onChange={handleChange}
+            />
+            <button className="primary-btn" onClick={verifyOtp}>
+              Verify OTP →
+            </button>
+          </div>
         )}
 
+        {/* STEP 3 */}
         {step === 3 && (
-          <>
-            <label>Upload Payment Screenshot</label>
-            <input type="file" onChange={e => setPaymentImage(e.target.files[0])} />
-            <button onClick={submitAdmission}>Submit Admission</button>
-          </>
+          <div className="form-grid">
+            <label className="upload-box">
+              Upload Payment Screenshot
+              <input
+                type="file"
+                hidden
+                onChange={e => setPaymentImage(e.target.files[0])}
+              />
+            </label>
+
+            <button className="primary-btn" onClick={submitAdmission}>
+              Submit Admission ✔
+            </button>
+          </div>
         )}
+
       </div>
     </div>
   );

@@ -1,97 +1,115 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../styles/courseContent.css";
-import { API_BASE } from "../config";
+import "../styles/courseContentPremium.css";
 
 function CourseContent() {
   const { id } = useParams();
+  const student = JSON.parse(localStorage.getItem("student"));
+
   const [content, setContent] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [progress, setProgress] = useState({ completed: [], lastContentId: null });
 
-  let student = null;
-  try {
-    student = JSON.parse(localStorage.getItem("student"));
-  } catch (err) {
-    student = null;
-  }
-
-  const hasAccess =
-    student &&
-    Array.isArray(student.courses) &&
-    student.courses.includes(Number(id));
-
+  /* ================= FETCH CONTENT ================= */
   useEffect(() => {
-    fetch(`${API_BASE}/content/${id}`)
-      .then((res) => res.json())
-      .then((data) => setContent(data))
-      .catch(() => setContent([]));
+    let url = `http://localhost:5000/course/${id}/content`;
+    if (student) url += `?studentId=${student.id}`;
+
+    fetch(url).then(r => r.json()).then(setContent);
   }, [id]);
 
-  const renderContent = (c) => {
-    if (c.type === "video") {
-      return (
-        <video
-          src={`${API_BASE}${c.fileUrl}`}
-          controls
-          style={{ width: "100%" }}
-        />
-      );
-    }
+  /* ================= FETCH PROGRESS ================= */
+  useEffect(() => {
+    if (!student) return;
 
-    if (c.type === "pdf") {
-      return (
-        <a
-          href={`${API_BASE}${c.fileUrl}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          📄 Open PDF
-        </a>
-      );
-    }
+    fetch(`http://localhost:5000/progress/${student.id}/${id}`)
+      .then(r => r.json())
+      .then(setProgress);
+  }, [id]);
 
-    if (c.type === "image") {
-      return (
-        <img
-          src={`${API_BASE}${c.fileUrl}`}
-          alt={c.title}
-          style={{ width: "100%" }}
-        />
-      );
-    }
-
-    return (
-      <a
-        href={`${API_BASE}${c.fileUrl}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        ⬇ Download
-      </a>
-    );
+  /* ================= SAVE PROGRESS ================= */
+  const saveProgress = (contentId, completed = false) => {
+    fetch("http://localhost:5000/progress/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        studentId: student.id,
+        courseId: id,
+        contentId,
+        completed
+      })
+    });
   };
+
+  /* ================= GROUP ================= */
+  const grouped = content.reduce((acc, c) => {
+    acc[c.category] = acc[c.category] || [];
+    acc[c.category].push(c);
+    return acc;
+  }, {});
 
   return (
     <div className="course-content-page">
-      <h2>Course Content</h2>
+      <h2 className="page-title">📚 Course Content</h2>
 
-      {content.length === 0 && <p>No content available</p>}
+      {/* FOLDERS */}
+      <div className="folder-grid">
+        {Object.keys(grouped).map(cat => (
+          <div
+            key={cat}
+            className={`folder-card ${activeCategory === cat ? "active" : ""}`}
+            onClick={() => setActiveCategory(cat)}
+          >
+            📁 {cat.toUpperCase()}
+          </div>
+        ))}
+      </div>
 
-      {content.map((c) => {
-        const locked = c.locked && !hasAccess;
+      {/* CONTENT */}
+      {activeCategory && grouped[activeCategory].map((c, i) => {
+        const completed = progress.completed.includes(c.id);
+        const isLast = progress.lastContentId === c.id;
 
         return (
           <div
             key={c.id}
-            className={`content-card ${locked ? "locked" : ""}`}
+            className={`content-card ${isLast ? "last-watched" : ""}`}
           >
-            <h4>{c.title}</h4>
+            <h4>
+              {i + 1}. {c.title}
+              {completed && <span className="done"> ✔</span>}
+            </h4>
 
-            {locked ? (
-              <div className="lock-msg">
-                🔒 Locked – Admission required
-              </div>
+            {c.locked ? (
+              <div className="locked-box">🔒 Locked</div>
             ) : (
-              renderContent(c)
+              <>
+                {c.category === "video" && (
+                  <video
+                    src={`http://localhost:5000${c.fileUrl}`}
+                    controls
+                    onTimeUpdate={(e) => {
+                      const percent =
+                        (e.target.currentTime / e.target.duration) * 100;
+                      if (percent > 10) saveProgress(c.id);
+                      if (percent > 90) saveProgress(c.id, true);
+                    }}
+                    className="video-player"
+                  />
+                )}
+
+                {c.category === "pdf" && (
+                  <a
+                    href={`http://localhost:5000${c.fileUrl}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => saveProgress(c.id, true)}
+                    className="pdf-btn"
+                  >
+                    📄 Open PDF
+                  </a>
+                )}
+              </>
             )}
           </div>
         );

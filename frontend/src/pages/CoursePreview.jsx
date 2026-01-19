@@ -1,48 +1,43 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { API_BASE } from "../config";
 
 function CoursePreview() {
   const { id } = useParams();
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_BASE}/content/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const freeContent = Array.isArray(data)
-          ? data.filter((c) => !c.locked)
-          : [];
-        setContent(freeContent);
-      })
-      .catch(() => setContent([]));
+    fetch(`http://localhost:5000/course/${id}/content`)
+      .then(res => res.json())
+      .then(data => {
+        setContent(data.filter(c => !c.locked));
+      });
   }, [id]);
 
   return (
-    <div style={{ padding: 40 }}>
+    <div style={{ padding: 30 }}>
       <h2>Free Course Content</h2>
 
       {content.length === 0 && <p>No free content available</p>}
 
-      {content.map((c) => (
+      {content.map(c => (
         <div key={c.id} style={{ marginBottom: 20 }}>
           <h4>{c.title}</h4>
 
-          {c.type === "video" && (
+          {c.category === "video" && (
             <video
-              src={`${API_BASE}${c.fileUrl}`}
+              src={`http://localhost:5000${c.fileUrl}`}
               controls
               width="400"
             />
           )}
 
-          {c.type === "pdf" && (
+          {c.category === "pdf" && (
             <a
-              href={`${API_BASE}${c.fileUrl}`}
+              href={`http://localhost:5000${c.fileUrl}`}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noreferrer"
             >
-              📄 View PDF
+              View PDF
             </a>
           )}
         </div>

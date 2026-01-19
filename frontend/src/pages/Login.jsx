@@ -1,33 +1,80 @@
 import { useState } from "react";
-import "../styles/auth.css";
+import "../styles/login.css";
 
 function Login() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    const res = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, password })
-    });
+    if (!id || !password) {
+      setMsg("Please enter Student ID & Password");
+      return;
+    }
 
-    const data = await res.json();
+    setLoading(true);
+    setMsg("");
 
-    if (!res.ok) return setMsg(data.message);
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, password })
+      });
 
-    localStorage.setItem("student", JSON.stringify(data.student));
-    window.location.href = "/dashboard";
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMsg(data.message || "Login failed");
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem("student", JSON.stringify(data.student));
+      window.location.href = "/dashboard";
+    } catch (err) {
+      setMsg("Server error. Try again.");
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Student Login</h2>
-      <input placeholder="Student ID" onChange={e => setId(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
-      {msg && <p style={{ color: "red" }}>{msg}</p>}
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-header">
+          <h2>🎓 Student Login</h2>
+          <p>Access your courses & continue learning</p>
+        </div>
+
+        <div className="login-form">
+          <label>Student ID</label>
+          <input
+            type="text"
+            placeholder="Enter Student ID"
+            value={id}
+            onChange={e => setId(e.target.value)}
+          />
+
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+
+          <button onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          {msg && <div className="login-error">{msg}</div>}
+        </div>
+
+        <div className="login-footer">
+          <span>🔐 Secure Student Portal</span>
+        </div>
+      </div>
     </div>
   );
 }

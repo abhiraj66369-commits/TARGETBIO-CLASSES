@@ -49,9 +49,7 @@ function TeacherDashboard() {
 
       const data = await res.json();
       alert(data.message);
-
-      // ✅ ALWAYS reload from server (IMPORTANT FIX)
-      loadAdmissions();
+      loadAdmissions(); // 🔁 refresh
     } catch {
       alert("Server error");
     }
@@ -64,64 +62,93 @@ function TeacherDashboard() {
   };
 
   return (
-    <div className="teacher-dashboard">
-      <h2>Welcome Guru 👨‍🏫</h2>
+    <div className="td-page">
 
-      <div className="top-buttons">
-        <button onClick={() => navigate("/add-course")}>➕ Add Course</button>
-        <button onClick={() => navigate("/upload-content")}>📤 Upload Content</button>
-        <button className="logout" onClick={logout}>Logout</button>
+      {/* ===== HEADER ===== */}
+      <div className="td-header">
+        <div>
+          <h2>👨‍🏫 Guru Dashboard</h2>
+          <p>Manage student admissions & courses</p>
+        </div>
+
+        <div className="td-actions">
+          <button onClick={() => navigate("/add-course")}>➕ Add Course</button>
+          <button onClick={() => navigate("/upload-content")}>📤 Upload Content</button>
+          <button onClick={() => navigate("/teacher-analytics")}>
+📊 Analytics
+</button>
+<button onClick={() => navigate("/teacher/course-students")}>
+📚 Course Students
+</button>
+<button onClick={() => navigate("/teacher/profile")}>
+👤 My Profile
+</button>
+          <button className="logout" onClick={logout}>Logout</button>
+
+        </div>
       </div>
 
-      <h3>Student Admissions</h3>
+      {/* ===== BODY ===== */}
+      <h3 className="section-title">📋 Student Admissions</h3>
 
-      {loading && <p>Loading...</p>}
-      {!loading && admissions.length === 0 && <p>No admissions found</p>}
+      {loading && <p className="info-text">Loading admissions...</p>}
+      {!loading && admissions.length === 0 && (
+        <p className="info-text">No admissions found</p>
+      )}
 
-      <div className="admission-list">
+      <div className="admission-grid">
         {admissions.map(a => (
           <div key={a.id} className="admission-card">
-            <div className="info">
-              <p><b>Name:</b> {a.name}</p>
+
+            {/* LEFT */}
+            <div className="admission-info">
+              <h4>{a.name}</h4>
               <p><b>Email:</b> {a.email}</p>
-              <p><b>Course:</b> {a.courseId}</p>
+              <p><b>Course ID:</b> {a.courseId}</p>
+
+              <span className={`status-badge ${a.status.toLowerCase()}`}>
+                {a.status}
+              </span>
             </div>
 
-            {a.paymentProof && (
-              <img
-                src={`http://localhost:5000${a.paymentProof}`}
-                alt="Payment Proof"
-                className="proof-img"
-                onClick={() =>
-                  window.open(`http://localhost:5000${a.paymentProof}`, "_blank")
-                }
-              />
-            )}
+            {/* RIGHT */}
+            <div className="admission-right">
+              {a.paymentProof && (
+                <img
+                  src={`http://localhost:5000${a.paymentProof}`}
+                  alt="Payment Proof"
+                  className="proof-img"
+                  onClick={() =>
+                    window.open(
+                      `http://localhost:5000${a.paymentProof}`,
+                      "_blank"
+                    )
+                  }
+                />
+              )}
 
-            <p className={`status ${a.status.toLowerCase()}`}>
-              Status: {a.status}
-            </p>
+              {a.status === "WAITING" && (
+                <div className="action-buttons">
+                  <button
+                    className="approve"
+                    onClick={() => updateStatus(a.id, "APPROVED")}
+                  >
+                    ✅ Approve
+                  </button>
+                  <button
+                    className="reject"
+                    onClick={() => updateStatus(a.id, "REJECTED")}
+                  >
+                    ❌ Reject
+                  </button>
+                </div>
+              )}
+            </div>
 
-            {a.status === "WAITING" && (
-              <div className="action-buttons">
-                <button
-                  className="approve"
-                  onClick={() => updateStatus(a.id, "APPROVED")}
-                >
-                  Approve
-                </button>
-
-                <button
-                  className="reject"
-                  onClick={() => updateStatus(a.id, "REJECTED")}
-                >
-                  Reject
-                </button>
-              </div>
-            )}
           </div>
         ))}
       </div>
+
     </div>
   );
 }

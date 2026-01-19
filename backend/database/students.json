@@ -6,17 +6,40 @@
     "phone": "7250632523",
     "password": "725063",
     "courses": [
-      "1"
-    ]
+      "1",
+      "1767548825645",
+      "3",
+      "2"
+    ],
+    "progress": {
+      "1767548825645": {
+        "lastContentId": 1767756308829,
+        "completed": [
+          1767756308829
+        ]
+      }
+    }
   },
   {
     "id": 155803,
     "name": "ANVI SINHA",
     "email": "abhiraj66369@gmail.com",
     "phone": "7250632523",
-    "password": "81hegt1e",
+    "password": "725063",
     "courses": [
       "1"
+    ]
+  },
+  {
+    "id": 106949,
+    "name": "KUMAR ABHINASH",
+    "fatherName": "RAJESH KUMAR SUMAN",
+    "fullAddress": "maheshpur ",
+    "email": "abhinashk363@gmail.com",
+    "phone": "7250632523",
+    "password": "vwd94ugt",
+    "courses": [
+      "2"
     ]
   }
 ]

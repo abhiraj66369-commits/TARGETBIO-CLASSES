@@ -1,0 +1,68 @@
+.teacher-profile-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+.profile-card {
+  background: white;
+  width: 380px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  margin: auto;
+  background: #e0e7ff;
+  border-radius: 50%;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-card h2 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.role {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.info p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button:first-child {
+  background: #2563eb;
+  color: white;
+}
+
+.actions .logout {
+  background: #dc2626;
+  color: white;
+}

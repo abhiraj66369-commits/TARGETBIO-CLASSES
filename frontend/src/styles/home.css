@@ -1,147 +1,284 @@
-/* GLOBAL */
-section {
-  padding: 80px 8%;
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", "Poppins", sans-serif;
+  background: #fefefe;
 }
 
-h1, h2 {
-  font-weight: 800;
-}
-
-.btn {
-  padding: 12px 26px;
-  border-radius: 30px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.primary {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: white;
-}
-
-.outline {
-  border: 2px solid #22c55e;
-  color: #22c55e;
-}
-
-.big {
-  font-size: 18px;
-}
-
-/* HERO */
-.hero {
-  display: flex;
+/* ================= HERO ================= */
+.kids-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 70px 8%;
   align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #020617, #020617);
-  color: white;
-  min-height: 90vh;
+  gap: 40px;
+  background: linear-gradient(135deg, #dbeafe, #fef3c7);
+  overflow: hidden;
 }
 
-.hero-content {
-  max-width: 600px;
+.kids-left h1 {
+  font-size: 3rem;
+  color: #1e3a8a;
 }
 
-.badge {
-  background: #22c55e;
-  color: black;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
+.kids-left h1 span {
+  color: #ea580c;
 }
 
-.hero h1 span {
-  color: #22c55e;
+.kids-left p {
+  font-size: 1.1rem;
+  margin: 15px 0;
 }
 
-.hero p {
-  margin: 20px 0;
-  color: #cbd5f5;
-}
-
-.hero-buttons {
+.kids-buttons {
   display: flex;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-top: 20px;
 }
 
-.stats {
-  display: flex;
-  gap: 40px;
-}
-
-.stats h3 {
-  color: #22c55e;
-}
-
-/* HERO IMAGE */
-.hero-image img {
-  max-width: 450px;
-}
-
-/* WHY US */
-.why-us {
-  background: #f8fafc;
-  text-align: center;
-}
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.feature-card {
-  background: white;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-
-.feature-card span {
-  font-size: 40px;
-}
-
-/* TEAM */
-.team {
-  text-align: center;
-}
-
-.team-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.team-card {
-  background: #020617;
+.btn-kids {
+  background: #22c55e;
   color: white;
-  padding: 30px;
-  border-radius: 18px;
+  padding: 14px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s ease;
 }
 
+.btn-kids:hover {
+  transform: scale(1.05);
+}
+
+.btn-kids-outline {
+  border: 2px dashed #22c55e;
+  padding: 14px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  color: #166534;
+}
+
+.emoji-row {
+  font-size: 1.8rem;
+  margin-top: 15px;
+}
+
+/* HERO IMAGE CONTROL 🔥 */
+.kids-right {
+  display: flex;
+  justify-content: center;
+}
+
+.kids-right img {
+  max-width: 420px;   /* ⭐ yahin size control */
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.kids-right img:hover {
+  transform: scale(1.05) rotate(-1deg);
+}
+
+/* ================= FUN CARDS ================= */
+.fun-section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.fun-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.fun-card {
+  background: #fff7ed;
+  border-radius: 20px;
+  padding: 30px;
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.fun-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
+}
+
+.fun-card h3 {
+  font-size: 1.2rem;
+}
+
+/* ================= TEACHER ================= */
+/* TEAM SECTION */
+.team {
+  padding: 80px 20px;
+  background: #ecfdf5;
+  text-align: center;
+}
+
+.team h2 {
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  color: #065f46;
+}
+
+/* ROW LAYOUT */
+.team-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  flex-wrap: wrap; /* mobile ke liye */
+}
+
+/* CARD */
+.team-card {
+  background: white;
+  padding: 30px 25px;
+  border-radius: 24px;
+  width: 260px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGE */
 .team-card img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #22c55e;
   margin-bottom: 15px;
 }
 
-.team-card span {
-  color: #22c55e;
-  font-size: 14px;
+/* TEXT */
+.team-card h3 {
+  font-size: 1.2rem;
+  color: #064e3b;
+  margin-bottom: 6px;
 }
 
-/* CTA */
-.cta {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+.team-card p {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .team-row {
+    gap: 25px;
+  }
+
+  .team-card {
+    width: 90%;
+    max-width: 320px;
+  }
+}
+
+
+/* ================= CTA ================= */
+.kids-cta {
+  background: linear-gradient(135deg, #fb7185, #facc15);
   text-align: center;
-  color: black;
+  padding: 70px 20px;
+  color: #1f2937;
 }
 
-.cta p {
-  margin: 15px 0 30px;
+.kids-cta .big {
+  margin-top: 20px;
+  display: inline-block;
 }
+
+/* ================= BIO BUDDY 🤖 ================= */
+.bio-buddy {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 140px;
+  cursor: pointer;
+  z-index: 999;
+  animation: float 3s ease-in-out infinite;
+}
+
+.bio-buddy img {
+  width: 100%;
+  transition: transform 0.3s;
+}
+
+.bio-buddy:hover img {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.buddy-text {
+  position: absolute;
+  bottom: 120px;
+  right: 0;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.bio-buddy:hover .buddy-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating animation */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .kids-hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .kids-buttons {
+    justify-content: center;
+  }
+
+  .kids-right img {
+    max-width: 280px;
+    margin-top: 30px;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .bio-buddy {
+    display: none;
+  }
+}
+
+.buddy-text {
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.8) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+

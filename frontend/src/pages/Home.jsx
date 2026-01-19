@@ -1,121 +1,154 @@
+import { useState } from "react";
 import "../styles/home.css";
 
 function Home() {
+
+  /* 🤖 BIO BUDDY LOGIC */
+  const messages = [
+    "Hi! Main Bio Buddy hoon 😄",
+    "Biology ab bilkul easy ho gayi 🧠✨",
+    "Video dekho aur smart bano 🎥",
+    "Notes download karna mat bhoolna 📘",
+    "NEET crack karna hai toh daily padho 💪"
+  ];
+
+  const [showText, setShowText] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  const speakBuddy = () => {
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    setShowText(msg);
+    setVisible(true);
+
+    // 🔊 Voice
+    const voice = new SpeechSynthesisUtterance(msg);
+    voice.lang = "en-IN";
+    voice.rate = 0.9;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(voice);
+
+    setTimeout(() => setVisible(false), 3000);
+  };
+
   return (
     <>
-      {/* HERO SECTION */}
-      <section className="hero">
-        <div className="hero-content">
-          <span className="badge">🚀 Trusted by 5,000+ Students</span>
-
+      {/* HERO */}
+      <section className="kids-hero">
+        <div className="kids-left">
           <h1>
-            Target Bio Classes <br />
-            <span>Crack NEET with Confidence</span>
+            🎓 Target Bio Classes <br />
+            <span>Biology banaye super easy 🧠✨</span>
           </h1>
 
           <p>
-            India’s trusted institute for <b>NEET, JEE, 11th & 12th</b>.
-            Learn with expert teachers, premium content, tests & mentorship.
+            NEET, 11th & 12th ke liye <b>fun videos</b>,  
+            <b>easy notes</b> aur <b>smart tests</b>.
           </p>
 
-          <div className="hero-buttons">
-            <a href="/admission" className="btn primary">
-              🎓 Take Admission
+          <div className="kids-buttons">
+            <a href="/admission" className="btn-kids">
+              🚀 Take Admission
             </a>
-            <a href="/courses" className="btn outline">
-              📚 Explore Courses
+            <a href="/courses" className="btn-kids-outline">
+              📚 Free Demo
             </a>
           </div>
 
-          <div className="stats">
-            <div>
-              <h3>15+</h3>
-              <p>Years Experience</p>
-            </div>
-            <div>
-              <h3>98%</h3>
-              <p>Student Satisfaction</p>
-            </div>
-            <div>
-              <h3>5000+</h3>
-              <p>Success Stories</p>
-            </div>
+          <div className="emoji-row">
+            🧬 📘 🧪 🧠 🎯
           </div>
         </div>
 
-        <div className="hero-image">
-          <img src="/hero.png" alt="Target Bio Classes" />
+        <div className="kids-right">
+          <img src="/Avengers.jpg" alt="study fun" />
+        </div>
+
+        {/* 🤖 BIO BUDDY */}
+<div
+  className="bio-buddy"
+  onMouseEnter={() => {
+    setShowText("Hi! 👋 Main Bio Buddy hoon \nBiology ab super easy! 🧠✨");
+    setVisible(true);
+  }}
+  onMouseLeave={() => setVisible(false)}
+  onClick={speakBuddy}
+>
+  <img src="/mascot3.png" alt="Bio Buddy" />
+
+  {visible && (
+    <div className="buddy-text">
+      {showText}
+    </div>
+  )}
+</div>
+      </section>
+
+      {/* FUN CARDS */}
+      <section className="fun-section">
+        <h2>Yahan padhna = Maja 😄</h2>
+
+        <div className="fun-cards">
+          <div className="fun-card">
+            🎥
+            <h3>Animated Videos</h3>
+            <p>Hard topics ko simple bana dete hain</p>
+          </div>
+
+          <div className="fun-card">
+            📒
+            <h3>Easy Notes</h3>
+            <p>Short + clear + exam focused</p>
+          </div>
+
+          <div className="fun-card">
+            🧪
+            <h3>Practice Tests</h3>
+            <p>Daily practice se confidence boost</p>
+          </div>
+
+          <div className="fun-card">
+            🔒
+            <h3>Secure App</h3>
+            <p>Only enrolled students access content</p>
+          </div>
         </div>
       </section>
 
-      {/* WHY CHOOSE US */}
-      <section className="why-us">
-        <h2>Why Choose Target Bio Classes?</h2>
-
-        <div className="features">
-          <div className="feature-card">
-            <span>👨‍🏫</span>
-            <h3>Expert Faculty</h3>
-            <p>15+ years of NEET & Board teaching experience.</p>
-          </div>
-
-          <div className="feature-card">
-            <span>📘</span>
-            <h3>Premium Content</h3>
-            <p>Video lectures, notes, PDFs & tests.</p>
-          </div>
-
-          <div className="feature-card">
-            <span>🔒</span>
-            <h3>Secure LMS</h3>
-            <p>Locked content access only for enrolled students.</p>
-          </div>
-
-          <div className="feature-card">
-            <span>🎯</span>
-            <h3>Result Oriented</h3>
-            <p>Focused preparation for NEET & Boards.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* TEAM */}
+      {/* TEACHER */}
       <section className="team">
-        <h2>Meet Our Core Team</h2>
+        <h2>Meet Your Teachers 👨‍🏫💖</h2>
 
-        <div className="team-cards">
+        <div className="team-row">
           <div className="team-card">
-            <img src="/sonu.png" alt="Director" />
+            <img src="/sonu.png" alt="Sonu Sir" />
             <h3>Sonu Sir</h3>
-            <span>Founder & Director</span>
-            <p>15+ years of experience in Biology & NEET coaching.</p>
+            <p>15+ years experience<br />Biology Expert</p>
           </div>
 
           <div className="team-card">
-            <img src="/sajan.jpg" alt="Teacher" />
+            <img src="/sajan.jpg" alt="Sajan Sir" />
             <h3>Sajan Sir</h3>
-            <span>Senior Faculty</span>
-            <p>NEET & Board exam specialist.</p>
+            <p>15+ years experience<br />Biology Expert</p>
           </div>
 
           <div className="team-card">
-            <img src="/abhinash.jpg" alt="Developer" />
+            <img src="/abhinash.jpg" alt="Abhinash Sinha" />
             <h3>Abhinash Sinha</h3>
-            <span>LMS Architect</span>
-            <p>Designed & developed complete LMS platform.</p>
+            <p>LMS Architect<br />Developer</p>
           </div>
         </div>
       </section>
 
-      {/* CALL TO ACTION */}
-      <section className="cta">
-        <h2>Start Your Success Journey Today</h2>
+      {/* CTA */}
+      <section className="kids-cta">
+        <h2>Ready to Crack NEET? 🚀</h2>
         <p>
-          Limited seats available. Take admission now and get access to
-          premium learning content.
+          Ab Biology se dar nahi,  
+          Target Bio Classes ke sath jeet pakki 💪
         </p>
-        <a href="/admission" className="btn primary big">
-          🚀 Apply for Admission
+
+        <a href="/admission" className="btn-kids big">
+          🎉 Join Now
         </a>
       </section>
     </>

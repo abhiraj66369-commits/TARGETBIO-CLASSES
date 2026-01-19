@@ -16,5 +16,59 @@
     "category": "image",
     "fileUrl": "/uploads/content/1767687299050-7a1c902f988428c882a6d89226e8fe2f.jpg",
     "createdAt": "2026-01-06T08:14:59.072Z"
+  },
+  {
+    "id": 1767756308829,
+    "courseId": "1767548825645",
+    "title": "DEMO",
+    "accessType": "FREE",
+    "category": "pdf",
+    "fileUrl": "/uploads/content/1767756308810-BICCO_2025_6195605-1.pdf",
+    "createdAt": "2026-01-07T03:25:08.829Z"
+  },
+  {
+    "id": 1767784356330,
+    "courseId": "1767548825645",
+    "title": "VIDEO",
+    "accessType": "LOCKED",
+    "category": "video",
+    "fileUrl": "/uploads/content/1767784356212-WhatsApp Video 2025-10-15 at 13.37.53_3ce37281.mp4",
+    "createdAt": "2026-01-07T11:12:36.330Z"
+  },
+  {
+    "id": 1767788901604,
+    "courseId": "1767548825645",
+    "title": "demo2",
+    "accessType": "LOCKED",
+    "category": "video",
+    "fileUrl": "/uploads/content/1767788901334-Power_Star_#Pawan_Singh_à¤à¤¾_à¤ªà¥à¤µà¤°à¤«à¥à¤²_#VIDEO___à¤°à¤¾à¤à¤¾à¤à¥_à¤à¥_à¤¦à¤¿à¤²à¤µà¤¾___Bhojpuri_Song_2023(720p).mp4",
+    "createdAt": "2026-01-07T12:28:21.604Z"
+  },
+  {
+    "id": 1767796359349,
+    "courseId": "1",
+    "title": "DEMO",
+    "accessType": "FREE",
+    "category": "video",
+    "fileUrl": "/uploads/content/1767796359071-Lord Vishnu Meets Prahlad à¤¤à¥à¤®à¤¨à¥ à¤¬à¥à¤²à¤¾à¤¯à¤¾, à¤à¤° à¤®à¥à¤ à¤à¤²à¤¾ à¤à¤¯à¤¾ ð« Mahavatar Narsimha Netflix India - Netflix India (1080p, h264).mp4",
+    "createdAt": "2026-01-07T14:32:39.350Z"
+  },
+  {
+    "id": 1767796648132,
+    "courseId": "1767668968983",
+    "title": "VI",
+    "accessType": "LOCKED",
+    "category": "video",
+    "fileUrl": "/uploads/content/1767796648020-Video___à¤à¤®à¤°à¤¿à¤¯à¤¾_à¤¡à¥à¤²à¥___#Neelkamal_Singh___#Shilpi_Raj___Kamariya_Gole_Gole_Dole___New_#Bhojpuri_Song(480p).mp4",
+    "createdAt": "2026-01-07T14:37:28.132Z"
+  },
+  {
+    "id": 1767874486707,
+    "courseId": "1",
+    "title": "locked",
+    "accessType": "LOCKED",
+    "category": "video",
+    "fileUrl": "/uploads/content/1767874486192-Lord Vishnu Meets Prahlad à¤¤à¥à¤®à¤¨à¥ à¤¬à¥à¤²à¤¾à¤¯à¤¾, à¤à¤° à¤®à¥à¤ à¤à¤²à¤¾ à¤à¤¯à¤¾ ð« Mahavatar Narsimha Netflix India - Netflix India (1080p, h264).mp4",
+    "createdAt": "2026-01-08T12:14:46.707Z"
   }
 ]

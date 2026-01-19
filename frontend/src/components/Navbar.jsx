@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../styles/navbar.css";
 
 function Navbar() {
   const [guruOpen, setGuruOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // 🔐 Student check
+  const student = JSON.parse(localStorage.getItem("student"));
+
+  const logout = () => {
+    localStorage.removeItem("student");
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -17,7 +26,7 @@ function Navbar() {
         <li><Link to="/courses">Courses</Link></li>
         <li><Link to="/admission">Admission</Link></li>
 
-        {/* 🔥 GURU MENU */}
+        {/* 🔥 GURU MENU (UNCHANGED) */}
         <li className="guru-menu">
           <button
             className="guru-btn"
@@ -38,9 +47,32 @@ function Navbar() {
           )}
         </li>
 
-        <li>
-          <Link to="/login" className="login-btn">Student Login</Link>
-        </li>
+        {/* 🔐 STUDENT SECTION */}
+        {student ? (
+          <>
+            <li>
+              <Link to="/dashboard" className="login-btn">
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/profile" className="login-btn">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <button className="logout-btn" onClick={logout}>
+                Logout
+              </button>
+            </li>
+          </>
+        ) : (
+          <li>
+            <Link to="/login" className="login-btn">
+              Student Login
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

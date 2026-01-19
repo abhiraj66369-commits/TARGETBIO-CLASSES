@@ -1,0 +1,96 @@
+.admission-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.admission-box {
+  background: #fff;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+.admission-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admission-header h2 {
+  margin-bottom: 6px;
+}
+
+.admission-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.steps span {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.steps .active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  background: #1e40af;
+}
+
+.upload-box {
+  border: 2px dashed #c7d2fe;
+  padding: 18px;
+  text-align: center;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #2563eb;
+  font-weight: 500;
+}
