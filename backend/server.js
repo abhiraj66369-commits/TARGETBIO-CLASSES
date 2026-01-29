@@ -9,6 +9,8 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+
+
 /* ================= DATABASE FOLDER ================= */
 const DB = path.join(__dirname, "database");
 if (!fs.existsSync(DB)) fs.mkdirSync(DB);
@@ -88,7 +90,7 @@ app.post("/send-otp", async (req, res) => {
     subject: "OTP Verification – Target Bio Classes",
     html: `<h2>Your OTP</h2><h1>${otp}</h1>`
   });
-
+  
   res.json({ message: "OTP sent" });
 });
 
@@ -140,7 +142,7 @@ app.get("/course/:courseId/content", (req, res) => {
   const students = JSON.parse(fs.readFileSync(studentsFile));
 
   let allowedCourses = [];
-
+  
   if (studentId) {
     const student = students.find(s => String(s.id) === String(studentId));
     if (student) {
@@ -149,9 +151,9 @@ app.get("/course/:courseId/content", (req, res) => {
   }
 
   const filtered = contents
-    .filter(c => String(c.courseId) === String(courseId))
-    .map(c => {
-      const locked =
+  .filter(c => String(c.courseId) === String(courseId))
+  .map(c => {
+    const locked =
         c.accessType === "PAID" && !allowedCourses.includes(String(courseId));
 
       return {
@@ -160,16 +162,16 @@ app.get("/course/:courseId/content", (req, res) => {
       };
     });
 
-  res.json(filtered);
-});
+    res.json(filtered);
+  });
 
 
-/* ================= ADMISSION ================= */
+  /* ================= ADMISSION ================= */
 app.post("/admission", upload.single("paymentProof"), async (req, res) => {
   const { name, fatherName, fullAddress, email, phone, courseId } = req.body;
   if (!name || !email || !phone || !courseId || !req.file)
     return res.status(400).json({ message: "All fields required" });
-
+  
   const admissions = JSON.parse(fs.readFileSync(admissionsFile));
   admissions.push({
     id: Date.now(),
@@ -182,15 +184,15 @@ app.post("/admission", upload.single("paymentProof"), async (req, res) => {
     paymentProof: `/uploads/${req.file.filename}`,
     status: "WAITING"
   });
-
+  
   fs.writeFileSync(admissionsFile, JSON.stringify(admissions, null, 2));
-
+  
   await transporter.sendMail({
     to: email,
     subject: "Admission Submitted – Target Bio Classes",
     html: `<p>Dear ${name}, your admission is under review.</p>`
   });
-
+  
   res.json({ message: "Admission submitted" });
 });
 
@@ -229,7 +231,7 @@ app.post("/admission/update", async (req, res) => {
     }
     fs.writeFileSync(studentsFile, JSON.stringify(students, null, 2));
   }
-
+  
   fs.writeFileSync(admissionsFile, JSON.stringify(admissions, null, 2));
   res.json({ message: "Admission updated" });
 });
@@ -344,10 +346,10 @@ app.post(
 app.get("/course/:courseId/content", (req, res) => {
   const contents = JSON.parse(fs.readFileSync(contentsFile));
   const students = JSON.parse(fs.readFileSync(studentsFile));
-
+  
   const student = students.find(s => String(s.id) === String(req.query.studentId));
   const allowed = student ? student.courses : [];
-
+  
   const result = contents.filter(c =>
     c.courseId === req.params.courseId &&
     (c.accessType === "FREE" || allowed.includes(c.courseId))
@@ -372,7 +374,7 @@ app.get("/course/:courseId/content", (req, res) => {
       const locked =
         c.accessType === "PAID" &&
         !enrolledCourses.includes(String(courseId));
-
+        
       return {
         ...c,
         locked
@@ -514,7 +516,7 @@ app.post("/teacher/course/add", (req, res) => {
 app.get("/course/:courseId/content", (req, res) => {
   const { courseId } = req.params;
   const { studentId } = req.query;
-
+  
   const contents = JSON.parse(fs.readFileSync(contentsFile));
   const students = JSON.parse(fs.readFileSync(studentsFile));
 
@@ -524,16 +526,16 @@ app.get("/course/:courseId/content", (req, res) => {
     const student = students.find(s => String(s.id) === String(studentId));
     if (student) enrolled = student.courses.map(String);
   }
-
+  
   const result = contents
     .filter(c => String(c.courseId) === String(courseId))
     .map(c => ({
       ...c,
       locked: c.accessType === "PAID" && !enrolled.includes(String(courseId))
     }));
-
-  res.json(result);
-});
+    
+    res.json(result);
+  });
 
 /* ================= ADMISSION ================= */
 app.post("/admission", upload.single("paymentProof"), async (req, res) => {
@@ -553,7 +555,7 @@ app.post("/admission", upload.single("paymentProof"), async (req, res) => {
     paymentProof: `/uploads/${req.file.filename}`,
     status: "WAITING"
   });
-
+  
   fs.writeFileSync(admissionsFile, JSON.stringify(admissions, null, 2));
   res.json({ message: "Admission submitted" });
 });
@@ -561,11 +563,11 @@ app.post("/admission", upload.single("paymentProof"), async (req, res) => {
 /* ================= APPROVE ================= */
 app.post("/admission/update", (req, res) => {
   const { admissionId, status } = req.body;
-
+  
   const admissions = JSON.parse(fs.readFileSync(admissionsFile));
   const students = JSON.parse(fs.readFileSync(studentsFile));
   const admission = admissions.find(a => String(a.id) === String(admissionId));
-
+  
   if (!admission) return res.status(404).json({ message: "Not found" });
 
   admission.status = status;
@@ -587,7 +589,7 @@ app.post("/admission/update", (req, res) => {
     }
     fs.writeFileSync(studentsFile, JSON.stringify(students, null, 2));
   }
-
+  
   fs.writeFileSync(admissionsFile, JSON.stringify(admissions, null, 2));
   res.json({ message: "Admission updated" });
 });
@@ -631,7 +633,7 @@ app.post("/progress/save", (req, res) => {
   } else {
     progress.push({ studentId, contentId, watchedSeconds, completed });
   }
-
+  
   fs.writeFileSync(progressFile, JSON.stringify(progress, null, 2));
   res.json({ message: "Progress saved" });
 });
@@ -647,7 +649,7 @@ app.post("/download/track", (req, res) => {
 
   if (found) found.count += 1;
   else downloads.push({ studentId, contentId, count: 1 });
-
+  
   fs.writeFileSync(downloadsFile, JSON.stringify(downloads, null, 2));
   res.json({ message: "Download tracked" });
 });
@@ -667,3 +669,7 @@ app.listen(5000, () => {
 app.listen(5000, () => {
   console.log("🚀 Server running on http://localhost:5000");
 });
+
+  app.listen(process.env.PORT || 5000, () => {
+    console.log("Server running");
+  });
