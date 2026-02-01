@@ -97,32 +97,23 @@ app.get("/", (req, res) => {
 });
 
 /* ================= SEND OTP ================= */
-app.post("/send-otp", async (req, res) => {
-  try {
-    const { email } = req.body;
-    if (!email)
-      return res.status(400).json({ message: "Email required" });
+app.post("/send-otp", (req, res) => {
+  const { email } = req.body;
+  if (!email)
+    return res.status(400).json({ message: "Email required" });
 
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    otpStore[email] = otp;
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  otpStore[email] = otp;
 
-    console.log("OTP:", otp);
+  console.log("OTP FOR", email, "=>", otp);
 
-    await transporter.sendMail({
-      to: email,
-      subject: "OTP Verification – Target Bio Classes",
-      html: `<h2>Your OTP</h2><h1>${otp}</h1>`
-    });
-
-    return res.status(200).json({
-  success: true,
-  message: "OTP sent"
+  // ❌ NO EMAIL
+  return res.status(200).json({
+    success: true,
+    message: "OTP generated"
+  });
 });
-  } catch (err) {
-    console.error("OTP ERROR:", err);
-    return res.status(500).json({ message: "OTP sending failed" });
-  }
-});
+
 
 
 /* ================= VERIFY OTP ================= */

@@ -44,24 +44,19 @@ function Admission() {
       }
     );
 
-    // 🔥 ignore preflight
     if (res.status === 204) return;
 
     const data = await res.json();
 
-    if (res.status !== 200) {
-      alert(data.message || "OTP failed");
-      return;
-    }
-
-    alert("OTP sent to your email");
+    // 🔥 force allow
     setStep(2);
+    alert("OTP generated");
 
   } catch (err) {
-    console.error(err);
-    alert("Network / CORS error");
+    alert("Network error");
   }
 };
+
 // --------------------------------- VERIFY OTP -----------------------------
   const verifyOtp = async () => {
   try {
