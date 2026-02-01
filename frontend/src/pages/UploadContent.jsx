@@ -14,7 +14,7 @@ function UploadContent() {
 
   /* LOAD COURSES */
   useEffect(() => {
-    fetch("${process.env.REACT_APP_API_URL}/courses")
+    fetch(`${process.env.REACT_APP_API_URL}/courses`)
       .then(res => res.json())
       .then(data => setCourses(data));
   }, []);
@@ -36,7 +36,7 @@ function UploadContent() {
     setLoading(true);
 
     const res = await fetch(
-      "${process.env.REACT_APP_API_URL}/teacher/content/upload",
+      `${process.env.REACT_APP_API_URL}/teacher/content/upload`,
       { method: "POST", body: fd }
     );
 
@@ -55,7 +55,6 @@ function UploadContent() {
       <h2>📤 Upload Course Content</h2>
 
       <div className="upload-card">
-        {/* COURSE */}
         <select name="courseId" onChange={handleChange}>
           <option value="">Select Course</option>
           {courses.map(c => (
@@ -65,14 +64,12 @@ function UploadContent() {
           ))}
         </select>
 
-        {/* TITLE */}
         <input
           name="title"
           placeholder="Content Title (Chapter / Topic)"
           onChange={handleChange}
         />
 
-        {/* CATEGORY */}
         <div className="row">
           <label>Category</label>
           <select name="category" onChange={handleChange}>
@@ -83,7 +80,6 @@ function UploadContent() {
           </select>
         </div>
 
-        {/* ACCESS TYPE */}
         <div className="toggle">
           <span>Access</span>
           <button
@@ -100,7 +96,6 @@ function UploadContent() {
           </button>
         </div>
 
-        {/* FILE */}
         <label className="file-box">
           {file ? file.name : "📁 Choose File"}
           <input
@@ -110,7 +105,6 @@ function UploadContent() {
           />
         </label>
 
-        {/* PREVIEW */}
         {file && (
           <div className="preview">
             <span>{file.type}</span>

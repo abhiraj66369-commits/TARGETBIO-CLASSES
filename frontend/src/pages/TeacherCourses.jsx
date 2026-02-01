@@ -7,17 +7,22 @@ function TeacherCourses() {
   const [price, setPrice] = useState("");
 
   const loadCourses = async () => {
-    const res = await fetch("${process.env.REACT_APP_API_URL}/courses");
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/courses`
+    );
     const data = await res.json();
     setCourses(data);
   };
 
   const addCourse = async () => {
-    await fetch("${process.env.REACT_APP_API_URL}/teacher/course/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, description, price })
-    });
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/teacher/course/add`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description, price })
+      }
+    );
 
     setTitle("");
     setDescription("");
@@ -26,11 +31,14 @@ function TeacherCourses() {
   };
 
   const deleteCourse = async (id) => {
-    await fetch("${process.env.REACT_APP_API_URL}/teacher/course/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id })
-    });
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/teacher/course/delete`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id })
+      }
+    );
 
     loadCourses();
   };
@@ -43,17 +51,20 @@ function TeacherCourses() {
     <div style={{ padding: "40px" }}>
       <h2>📚 Manage Courses</h2>
 
-      <input placeholder="Course Title"
+      <input
+        placeholder="Course Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      <input placeholder="Description"
+      <input
+        placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <input placeholder="Price"
+      <input
+        placeholder="Price"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
       />
@@ -62,12 +73,15 @@ function TeacherCourses() {
 
       <hr />
 
-      {courses.map(c => (
-        <div key={c.id} style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          margin: "10px 0"
-        }}>
+      {courses.map((c) => (
+        <div
+          key={c.id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "10px",
+            margin: "10px 0"
+          }}
+        >
           <h4>{c.title}</h4>
           <p>{c.description}</p>
           <p>₹ {c.price}</p>
