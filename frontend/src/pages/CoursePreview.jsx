@@ -6,7 +6,7 @@ function CoursePreview() {
   const [content, setContent] = useState([]);
 
   useEffect(() => {
-    fetch(`https://target-bio-classes.onrender.com/course/${id}/content`)
+    fetch(`https://targetbio-classes.onrender.com/course/${id}/content`)
       .then(res => res.json())
       .then(data => {
         setContent(data.filter(c => !c.locked));
@@ -25,7 +25,7 @@ function CoursePreview() {
 
           {c.category === "video" && (
             <video
-              src={`http://localhost:5000${c.fileUrl}`}
+              src={`${process.env.REACT_APP_API_URL}${c.fileUrl}`}
               controls
               width="400"
             />
@@ -33,7 +33,7 @@ function CoursePreview() {
 
           {c.category === "pdf" && (
             <a
-              href={`http://localhost:5000${c.fileUrl}`}
+              href={`${process.env.REACT_APP_API_URL}${c.fileUrl}`}
               target="_blank"
               rel="noreferrer"
             >

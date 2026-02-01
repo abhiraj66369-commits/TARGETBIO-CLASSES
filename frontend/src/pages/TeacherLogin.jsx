@@ -11,7 +11,7 @@ function TeacherLogin() {
     setMsg("");
 
     try {
-      const res = await fetch("http://localhost:5000/teacher/login", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/teacher/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

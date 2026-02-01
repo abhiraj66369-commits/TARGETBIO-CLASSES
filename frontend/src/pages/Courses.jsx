@@ -7,7 +7,7 @@ function Courses() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/courses")
+    fetch(`${process.env.REACT_APP_API_URL}/courses`)
       .then(res => res.json())
       .then(data => setCourses(data))
       .catch(() => setCourses([]));

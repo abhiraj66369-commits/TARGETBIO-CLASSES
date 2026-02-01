@@ -18,7 +18,7 @@ function Admission() {
 
   // 🔹 Fetch courses
   useEffect(() => {
-    fetch("http://localhost:5000/courses")
+    fetch(`${process.env.REACT_APP_API_URL}/courses`)
       .then(res => res.json())
       .then(setCourses)
       .catch(() => setCourses([]));
@@ -34,7 +34,8 @@ function Admission() {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/send-otp", {
+    const res = await fetch(
+  `${process.env.REACT_APP_API_URL}/send-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: form.email })
@@ -48,7 +49,8 @@ function Admission() {
   };
 
   const verifyOtp = async () => {
-    const res = await fetch("http://localhost:5000/verify-otp", {
+    const res = await fetch(
+  `${process.env.REACT_APP_API_URL}/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: form.email, otp: form.otp })
@@ -66,7 +68,8 @@ function Admission() {
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
     fd.append("paymentProof", paymentImage);
 
-    const res = await fetch("https://target-bio-classes.onrender.com/admission", {
+    const res = await fetch(
+  `${process.env.REACT_APP_API_URL}/admission`, {
       method: "POST",
       body: fd
     });

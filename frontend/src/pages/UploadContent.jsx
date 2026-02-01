@@ -14,7 +14,7 @@ function UploadContent() {
 
   /* LOAD COURSES */
   useEffect(() => {
-    fetch("http://localhost:5000/courses")
+    fetch("${process.env.REACT_APP_API_URL}/courses")
       .then(res => res.json())
       .then(data => setCourses(data));
   }, []);
@@ -36,7 +36,7 @@ function UploadContent() {
     setLoading(true);
 
     const res = await fetch(
-      "http://localhost:5000/teacher/content/upload",
+      "${process.env.REACT_APP_API_URL}/teacher/content/upload",
       { method: "POST", body: fd }
     );
 

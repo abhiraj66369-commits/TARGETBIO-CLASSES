@@ -8,7 +8,7 @@ function CourseDetail() {
   const [course, setCourse] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/courses`)
+    fetch(`${process.env.REACT_APP_API_URL}/courses`)
       .then(res => res.json())
       .then(data => {
         const c = data.find(x => String(x.id) === id);

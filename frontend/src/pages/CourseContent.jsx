@@ -15,7 +15,7 @@ function CourseContent() {
 
   /* ================= FETCH CONTENT ================= */
   useEffect(() => {
-    let url = `https://target-bio-classes.onrender.com/course/${id}/content`;
+    let url = `https://targetbio-classes.onrender.com/course/${id}/content`;
     if (student?.id) url += `?studentId=${student.id}`;
 
     fetch(url)
@@ -27,7 +27,7 @@ function CourseContent() {
   useEffect(() => {
     if (!student?.id) return;
 
-    fetch(`https://target-bio-classes.onrender.com/progress/${student.id}/${id}`)
+    fetch(`https://targetbio-classes.onrender.com/progress/${student.id}/${id}`)
       .then(r => r.json())
       .then(setProgress);
   }, [id, student?.id]); // ✅ FIX
@@ -36,7 +36,7 @@ function CourseContent() {
   const saveProgress = (contentId, completed = false) => {
     if (!student?.id) return;
 
-    fetch("https://target-bio-classes.onrender.com/progress/save", {
+    fetch("https://targetbio-classes.onrender.com/progress/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -96,7 +96,7 @@ function CourseContent() {
                 <>
                   {c.category === "video" && (
                     <video
-                      src={`https://target-bio-classes.onrender.com${c.fileUrl}`}
+                      src={`https://targetbio-classes.onrender.com${c.fileUrl}`}
                       controls
                       className="video-player"
                       onTimeUpdate={e => {
@@ -110,7 +110,7 @@ function CourseContent() {
 
                   {c.category === "pdf" && (
                     <a
-                      href={`https://target-bio-classes.onrender.com${c.fileUrl}`}
+                      href={`https://targetbio-classes.onrender.com${c.fileUrl}`}
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => saveProgress(c.id, true)}

@@ -24,7 +24,9 @@ function TeacherDashboard() {
   // 📥 Load admissions
   const loadAdmissions = async () => {
     try {
-      const res = await fetch("http://localhost:5000/admissions");
+      const res = await fetch(
+  `${process.env.REACT_APP_API_URL}/admissions`
+);
       const data = await res.json();
       setAdmissions(data.reverse());
     } catch {
@@ -41,7 +43,8 @@ function TeacherDashboard() {
   // ✅ Approve / Reject
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch("http://localhost:5000/admission/update", {
+      const res = await fetch(
+  `${process.env.REACT_APP_API_URL}/admission/update`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ admissionId: id, status })
@@ -115,12 +118,12 @@ function TeacherDashboard() {
             <div className="admission-right">
               {a.paymentProof && (
                 <img
-                  src={`http://localhost:5000${a.paymentProof}`}
+                  src={`${process.env.REACT_APP_API_URL}${a.paymentProof}`}
                   alt="Payment Proof"
                   className="proof-img"
                   onClick={() =>
                     window.open(
-                      `http://localhost:5000${a.paymentProof}`,
+                      `${process.env.REACT_APP_API_URL}${a.paymentProof}`,
                       "_blank"
                     )
                   }

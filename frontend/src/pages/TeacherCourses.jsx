@@ -7,13 +7,13 @@ function TeacherCourses() {
   const [price, setPrice] = useState("");
 
   const loadCourses = async () => {
-    const res = await fetch("http://localhost:5000/courses");
+    const res = await fetch("${process.env.REACT_APP_API_URL}/courses");
     const data = await res.json();
     setCourses(data);
   };
 
   const addCourse = async () => {
-    await fetch("http://localhost:5000/teacher/course/add", {
+    await fetch("${process.env.REACT_APP_API_URL}/teacher/course/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, description, price })
@@ -26,7 +26,7 @@ function TeacherCourses() {
   };
 
   const deleteCourse = async (id) => {
-    await fetch("http://localhost:5000/teacher/course/delete", {
+    await fetch("${process.env.REACT_APP_API_URL}/teacher/course/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id })

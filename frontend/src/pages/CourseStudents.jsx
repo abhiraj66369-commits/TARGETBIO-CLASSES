@@ -5,7 +5,7 @@ function CourseStudents() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/teacher/course-students")
+    fetch(`${process.env.REACT_APP_API_URL}/teacher/course-students`)
       .then(r => r.json())
       .then(setCourses);
   }, []);

@@ -15,7 +15,7 @@ function TeacherRegister() {
 
   const registerTeacher = async () => {
     try {
-      const res = await fetch("http://localhost:5000/teacher/register", {
+      const res = await fetch("${process.env.REACT_APP_API_URL}/teacher/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

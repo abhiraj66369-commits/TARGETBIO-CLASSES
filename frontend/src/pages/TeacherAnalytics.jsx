@@ -5,7 +5,7 @@ function TeacherAnalytics() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/teacher/analytics")
+    fetch(`${process.env.REACT_APP_API_URL}/teacher/analytics`)
       .then(r => r.json())
       .then(setData);
   }, []);
