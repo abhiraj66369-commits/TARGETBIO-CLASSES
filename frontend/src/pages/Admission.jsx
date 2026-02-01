@@ -44,10 +44,10 @@ function Admission() {
       }
     );
 
-    console.log("STATUS:", res.status);
+    // 🔥 ignore preflight
+    if (res.status === 204) return;
 
     const data = await res.json();
-    console.log("DATA:", data);
 
     if (res.status !== 200) {
       alert(data.message || "OTP failed");
@@ -55,10 +55,10 @@ function Admission() {
     }
 
     alert("OTP sent to your email");
-    setStep(2);   // 🔥 THIS WILL NOW WORK
+    setStep(2);
 
   } catch (err) {
-    console.error("SEND OTP ERROR:", err);
+    console.error(err);
     alert("Network / CORS error");
   }
 };
@@ -147,9 +147,14 @@ function Admission() {
               ))}
             </select>
 
-            <button className="primary-btn" onClick={sendOtp}>
-              Send OTP →
-            </button>
+            <button
+  type="button"
+  className="primary-btn"
+  onClick={sendOtp}
+>
+  Send OTP →
+</button>
+
           </div>
         )}
 

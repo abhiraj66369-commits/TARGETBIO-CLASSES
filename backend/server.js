@@ -17,6 +17,14 @@ app.use(cors({
   allowedHeaders: ["Content-Type"]
 }));
 
+// 🔥 handle preflight ONLY for send-otp
+app.options("/send-otp", cors({
+  origin: "https://targetbio-classes.netlify.app",
+  methods: ["POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
