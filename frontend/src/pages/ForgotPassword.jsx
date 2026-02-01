@@ -9,7 +9,7 @@ function ForgotPassword() {
   const [msg, setMsg] = useState("");
 
   const sendOtp = async () => {
-    const res = await fetch("${process.env.REACT_APP_API_URL}/forgot-password", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/forgot-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email })
@@ -23,7 +23,7 @@ function ForgotPassword() {
   };
 
   const resetPassword = async () => {
-    const res = await fetch("${process.env.REACT_APP_API_URL}/reset-password", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/reset-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, otp, newPassword })
