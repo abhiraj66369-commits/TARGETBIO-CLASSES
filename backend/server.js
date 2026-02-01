@@ -106,7 +106,10 @@ app.post("/send-otp", async (req, res) => {
       html: `<h2>Your OTP</h2><h1>${otp}</h1>`
     });
 
-    return res.json({ success: true, message: "OTP sent" });
+    return res.status(200).json({
+  success: true,
+  message: "OTP sent"
+});
   } catch (err) {
     console.error("OTP ERROR:", err);
     return res.status(500).json({ message: "OTP sending failed" });

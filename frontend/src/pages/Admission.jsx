@@ -29,40 +29,69 @@ function Admission() {
 
   /* ================= OTP ================= */
   const sendOtp = async () => {
-    if (!form.email || !form.courseId) {
-      alert("Please fill email & select course");
+  if (!form.email || !form.courseId) {
+    alert("Please fill email & select course");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/send-otp`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email })
+      }
+    );
+
+    console.log("STATUS:", res.status);
+
+    const data = await res.json();
+    console.log("DATA:", data);
+
+    if (res.status !== 200) {
+      alert(data.message || "OTP failed");
       return;
     }
 
-    const res = await fetch(
-  `${process.env.REACT_APP_API_URL}/send-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: form.email })
-    });
-
-    const data = await res.json();
-    if (!res.ok) return alert(data.message);
-
     alert("OTP sent to your email");
-    setStep(2);
-  };
+    setStep(2);   // 🔥 THIS WILL NOW WORK
 
+  } catch (err) {
+    console.error("SEND OTP ERROR:", err);
+    alert("Network / CORS error");
+  }
+};
+// --------------------------------- VERIFY OTP -----------------------------
   const verifyOtp = async () => {
+  try {
     const res = await fetch(
-  `${process.env.REACT_APP_API_URL}/verify-otp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: form.email, otp: form.otp })
-    });
+      `${process.env.REACT_APP_API_URL}/verify-otp`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          otp: String(form.otp)   // 🔥 ensure string
+        })
+      }
+    );
 
     const data = await res.json();
-    if (!res.ok) return alert(data.message);
+
+    if (res.status !== 200) {
+      alert(data.message || "OTP invalid");
+      return;
+    }
 
     alert("OTP verified");
     setStep(3);
-  };
 
+  } catch (err) {
+    alert("Verify OTP failed");
+  }
+};
+  /* ================= SUBMIT ADMISSION ================= */
   const submitAdmission = async () => {
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
