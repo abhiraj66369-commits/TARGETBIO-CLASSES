@@ -10,10 +10,11 @@ const app = express();
 app.use(cors({
   origin: [
     "https://targetbio-classes.netlify.app",
+    "https://targetbio-classes.onrender.com",
     "http://localhost:3000"
   ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
 }));
 
 app.options("*", cors());
