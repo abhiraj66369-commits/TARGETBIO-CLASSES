@@ -95,12 +95,24 @@ const contentUpload = multer({ storage: contentStorage });
 const otpStore = {};
 
 /* ================= EMAIL ================= */
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL,
+//     pass: process.env.EMAIL_PASS,
+//   },
+// });
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // 465 ke liye ise true hona chahiye
   auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL, // targetbiootp@gmail.com
+    pass: process.env.EMAIL_PASS,  // ilclyvpoxisvfjdx
   },
+  tls: {
+    rejectUnauthorized: false // Isse connection fail hone ke chances kam ho jate hain
+  }
 });
 /* ================= TEST ================= */
 app.get("/", (req, res) => {
