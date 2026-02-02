@@ -1,22 +1,62 @@
 require("dotenv").config();
+
+// const { Resend } = require("resend");
+// const resend = new Resend(process.env.RESEND_API_KEY);
+
 const express = require("express");
-const nodemailer = require("nodemailer");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const multer = require("multer");
-// const PORT = process.env.PORT || 5000;
-// 🔎 DEBUG
-console.log("ENV EMAIL:", process.env.EMAIL);
-console.log("ENV PASS:", process.env.EMAIL_PASS);
 
+// console.log("RESEND KEY:", process.env.RESEND_API_KEY);
 
 const app = express();
+
 app.use(express.json());
 app.use(cors({
-  origin: true,          // 🔥 allow Netlify, localhost, future domains
+  origin: true,
   credentials: true,
 }));
+
+app.use(express.urlencoded({ extended: true }));
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: false, // must be false for 587
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
+
+
+// require("dotenv").config();
+// const { Resend } = require("resend");
+
+// const resend = new Resend(process.env.RESEND_API_KEY);
+
+// const express = require("express");
+// // const nodemailer = require("nodemailer");
+// const fs = require("fs");
+// const path = require("path");
+// const cors = require("cors");
+// const multer = require("multer");
+// // const PORT = process.env.PORT || 5000;
+// // 🔎 DEBUG
+// // console.log("ENV EMAIL:", process.env.EMAIL);
+// // console.log("ENV PASS:", process.env.EMAIL_PASS);
+// console.log("RESEND KEY LOADED:", !!process.env.RESEND_API_KEY);
+
+// const app = express();
+// app.use(express.json());
+// app.use(cors({
+//   origin: true,          // 🔥 allow Netlify, localhost, future domains
+//   credentials: true,
+// }));
 
 // app.options("*", cors());
 
@@ -102,18 +142,18 @@ const otpStore = {};
 //     pass: process.env.EMAIL_PASS,
 //   },
 // });
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // 465 ke liye ise true hona chahiye
-  auth: {
-    user: process.env.EMAIL, // targetbiootp@gmail.com
-    pass: process.env.EMAIL_PASS,  // ilclyvpoxisvfjdx
-  },
-  tls: {
-    rejectUnauthorized: false // Isse connection fail hone ke chances kam ho jate hain
-  }
-});
+// const transporter = nodemailer.createTransport({
+//   host: 'smtp.gmail.com',
+//   port: 465,
+//   secure: true, // 465 ke liye ise true hona chahiye
+//   auth: {
+//     user: process.env.EMAIL, // targetbiootp@gmail.com
+//     pass: process.env.EMAIL_PASS,  // ilclyvpoxisvfjdx
+//   },
+//   tls: {
+//     rejectUnauthorized: false // Isse connection fail hone ke chances kam ho jate hain
+//   }
+// });
 /* ================= TEST ================= */
 app.get("/", (req, res) => {
   res.send("🚀 Target Bio LMS Backend Running");
@@ -121,44 +161,33 @@ app.get("/", (req, res) => {
 
 /* ================= SEND OTP ================= */
 app.post("/send-otp", async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ success: false, message: "Email required" });
+  }
+
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+
+  otpStore[email] = { otp, expiresAt };
+
   try {
-    const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        message: "Email is required",
-      });
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000);
-
-    // ✅ OTP STORE WITH EXPIRY
-    otpStore[email] = {
-      otp,
-      expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
-    };
-
     await transporter.sendMail({
-      from: `"Target Bio Classes" <${process.env.EMAIL}>`,
+      from: process.env.FROM_EMAIL,
       to: email,
-      subject: "OTP Verification – Target Bio Classes",
-      text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
+      subject: "Your OTP - Target Bio Classes",
+      html: `
+        <h2>Your OTP is ${otp}</h2>
+        <p>This OTP is valid for 5 minutes.</p>
+      `,
     });
 
     console.log("OTP SENT:", email, otp);
 
-    res.json({
-      success: true,
-      message: "OTP sent successfully",
-    });
-
-  } catch (error) {
-    console.error("EMAIL ERROR:", error);
-    res.status(500).json({
-      success: false,
-      message: "Email sending failed",
-    });
+    res.json({ success: true, message: "OTP sent successfully" });
+  } catch (err) {
+    console.error("EMAIL ERROR:", err);
+    res.status(500).json({ success: false, message: "Failed to send OTP" });
   }
 });
 
@@ -167,25 +196,37 @@ app.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
 
   if (!email || !otp) {
-    return res.status(400).json({ message: "Email and OTP required" });
+    return res.status(400).json({
+      success: false,
+      message: "Email and OTP required",
+    });
   }
 
   const record = otpStore[email];
 
   if (!record) {
-    return res.status(400).json({ message: "OTP not found" });
+    return res.status(400).json({
+      success: false,
+      message: "OTP not found or already used",
+    });
   }
 
   if (Date.now() > record.expiresAt) {
     delete otpStore[email];
-    return res.status(400).json({ message: "OTP expired" });
+    return res.status(400).json({
+      success: false,
+      message: "OTP expired",
+    });
   }
 
-  if (String(record.otp) !== String(otp)) {
-    return res.status(400).json({ message: "Invalid OTP" });
+  if (record.otp !== Number(otp)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid OTP",
+    });
   }
 
-  // ✅ SUCCESS → DELETE OTP
+  // ✅ OTP correct
   delete otpStore[email];
 
   res.json({
@@ -193,7 +234,6 @@ app.post("/verify-otp", (req, res) => {
     message: "OTP verified successfully",
   });
 });
-
 
 /* ================= COURSES ================= */
 app.get("/courses", (req, res) => {
