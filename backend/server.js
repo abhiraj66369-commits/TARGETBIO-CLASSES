@@ -1,12 +1,18 @@
+require("dotenv").config();
 const express = require("express");
+const nodemailer = require("nodemailer");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const multer = require("multer");
-const nodemailer = require("nodemailer");
 // const PORT = process.env.PORT || 5000;
+// 🔎 DEBUG
+console.log("ENV EMAIL:", process.env.EMAIL);
+console.log("ENV PASS:", process.env.EMAIL_PASS);
+
 
 const app = express();
+app.use(express.json());
 app.use(cors({
   origin: [
     "https://targetbio-classes.netlify.app",
@@ -25,7 +31,6 @@ app.options("/send-otp", cors({
 }));
 
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -86,45 +91,90 @@ const otpStore = {};
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "targetbiootp@gmail.com",
-    pass: "rcrtmksjoturvsll"
-  }
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASS,
+  },
 });
-
 /* ================= TEST ================= */
 app.get("/", (req, res) => {
   res.send("🚀 Target Bio LMS Backend Running");
 });
 
 /* ================= SEND OTP ================= */
-app.post("/send-otp", (req, res) => {
-  const { email } = req.body;
-  if (!email)
-    return res.status(400).json({ message: "Email required" });
+app.post("/send-otp", async (req, res) => {
+  try {
+    const { email } = req.body;
 
-  const otp = Math.floor(100000 + Math.random() * 900000);
-  otpStore[email] = otp;
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
 
-  console.log("OTP FOR", email, "=>", otp);
+    const otp = Math.floor(100000 + Math.random() * 900000);
 
-  // ❌ NO EMAIL
-  return res.status(200).json({
-    success: true,
-    message: "OTP generated"
-  });
+    // ✅ OTP STORE WITH EXPIRY
+    otpStore[email] = {
+      otp,
+      expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
+    };
+
+    await transporter.sendMail({
+      from: `"Target Bio Classes" <${process.env.EMAIL}>`,
+      to: email,
+      subject: "OTP Verification – Target Bio Classes",
+      text: `Your OTP is ${otp}. It is valid for 5 minutes.`,
+    });
+
+    console.log("OTP SENT:", email, otp);
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+
+  } catch (error) {
+    console.error("EMAIL ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: "Email sending failed",
+    });
+  }
 });
-
-
 
 /* ================= VERIFY OTP ================= */
 app.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
-  if (otpStore[email] != otp)
-    return res.status(400).json({ message: "Invalid OTP" });
 
+  if (!email || !otp) {
+    return res.status(400).json({ message: "Email and OTP required" });
+  }
+
+  const record = otpStore[email];
+
+  if (!record) {
+    return res.status(400).json({ message: "OTP not found" });
+  }
+
+  if (Date.now() > record.expiresAt) {
+    delete otpStore[email];
+    return res.status(400).json({ message: "OTP expired" });
+  }
+
+  if (String(record.otp) !== String(otp)) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  // ✅ SUCCESS → DELETE OTP
   delete otpStore[email];
-  res.json({ message: "OTP verified" });
+
+  res.json({
+    success: true,
+    message: "OTP verified successfully",
+  });
 });
+
 
 /* ================= COURSES ================= */
 app.get("/courses", (req, res) => {

@@ -46,11 +46,24 @@ function Admission() {
 
     if (res.status === 204) return;
 
+    // const data = await res.json();
+
+    // // 🔥 force allow
+    // // setStep(2);
+    // // alert("OTP generated");
+
     const data = await res.json();
 
-    // 🔥 force allow
-    setStep(2);
-    alert("OTP generated");
+if (!data.success) {
+  alert(data.message || "OTP send failed");
+  return;
+}
+
+setStep(2);
+alert("OTP sent to your email");
+
+
+
 
   } catch (err) {
     alert("Network error");
@@ -74,13 +87,22 @@ function Admission() {
 
     const data = await res.json();
 
-    if (res.status !== 200) {
-      alert(data.message || "OTP invalid");
-      return;
-    }
+    // if (res.status !== 200) {
+    //   alert(data.message || "OTP invalid");
+    //   return;
+    // }
 
-    alert("OTP verified");
-    setStep(3);
+    // alert("OTP verified");
+    // setStep(3);
+
+    if (!data.success) {
+  alert(data.message || "OTP invalid");
+  return;
+}
+
+alert("OTP verified");
+setStep(3);
+
 
   } catch (err) {
     alert("Verify OTP failed");
