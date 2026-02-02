@@ -44,31 +44,21 @@ function Admission() {
       }
     );
 
-    if (res.status === 204) return;
-
-    // const data = await res.json();
-
-    // // 🔥 force allow
-    // // setStep(2);
-    // // alert("OTP generated");
-
     const data = await res.json();
 
-if (!data.success) {
-  alert(data.message || "OTP send failed");
-  return;
-}
+    if (!res.ok || !data.success) {
+      alert(data.message || "OTP send failed");
+      return;
+    }
 
-setStep(2);
-alert("OTP sent to your email");
-
-
-
+    alert("OTP sent to your email");
+    setStep(2);
 
   } catch (err) {
     alert("Network error");
   }
 };
+
 
 // --------------------------------- VERIFY OTP -----------------------------
   const verifyOtp = async () => {
@@ -80,39 +70,36 @@ alert("OTP sent to your email");
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: form.email,
-          otp: String(form.otp)   // 🔥 ensure string
+          otp: String(form.otp)
         })
       }
     );
 
     const data = await res.json();
 
-    // if (res.status !== 200) {
-    //   alert(data.message || "OTP invalid");
-    //   return;
-    // }
+    if (!res.ok || !data.success) {
+      alert(data.message || "OTP invalid");
+      return;
+    }
 
-    // alert("OTP verified");
-    // setStep(3);
-
-    if (!data.success) {
-  alert(data.message || "OTP invalid");
-  return;
-}
-
-alert("OTP verified");
-setStep(3);
-
+    alert("OTP verified");
+    setStep(3);
 
   } catch (err) {
     alert("Verify OTP failed");
   }
 };
+
   /* ================= SUBMIT ADMISSION ================= */
   const submitAdmission = async () => {
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
     fd.append("paymentProof", paymentImage);
+
+    if (!paymentImage) {
+  alert("Please upload payment screenshot");
+  return;
+}
 
     const res = await fetch(
   `${process.env.REACT_APP_API_URL}/admission`, {

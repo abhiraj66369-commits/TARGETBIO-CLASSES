@@ -14,21 +14,28 @@ console.log("ENV PASS:", process.env.EMAIL_PASS);
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: [
-    "https://targetbio-classes.netlify.app",
-    "https://targetbio-classes.onrender.com",
-    "http://localhost:3000"
-  ],
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
+  origin: true,          // 🔥 allow Netlify, localhost, future domains
+  credentials: true,
 }));
 
+// app.options("*", cors());
+
+// app.use(cors({
+//   origin: [
+//     "https://targetbio-classes.netlify.app",
+//     "https://targetbio-classes.onrender.com",
+//     "http://localhost:3000"
+//   ],
+//   methods: ["GET", "POST", "OPTIONS"],
+//   allowedHeaders: ["Content-Type"]
+// }));
+
 // 🔥 handle preflight ONLY for send-otp
-app.options("/send-otp", cors({
-  origin: "https://targetbio-classes.netlify.app",
-  methods: ["POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
-}));
+// app.options("/send-otp", cors({
+//   origin: "https://targetbio-classes.netlify.app",
+//   methods: ["POST", "OPTIONS"],
+//   allowedHeaders: ["Content-Type"]
+// }));
 
 
 app.use(express.urlencoded({ extended: true }));
