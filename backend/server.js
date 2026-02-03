@@ -25,13 +25,25 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: false, // must be false for 587
+  port: Number(process.env.SMTP_PORT),
+  secure: true, // 🔥 465 ke liye true
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  connectionTimeout: 10000, // extra safety
 });
+
+
+// const transporter = nodemailer.createTransport({
+//   host: process.env.SMTP_HOST,
+//   port: process.env.SMTP_PORT,
+//   secure: false, // must be false for 587
+//   auth: {
+//     user: process.env.SMTP_USER,
+//     pass: process.env.SMTP_PASS,
+//   },
+// });
 
 
 // require("dotenv").config();
@@ -161,19 +173,26 @@ app.get("/", (req, res) => {
 
 /* ================= SEND OTP ================= */
 app.post("/send-otp", async (req, res) => {
-  const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ success: false, message: "Email required" });
-  }
-
-  const otp = Math.floor(100000 + Math.random() * 900000);
-  const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
-
-  otpStore[email] = { otp, expiresAt };
-
   try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email required" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const expiresAt = Date.now() + 5 * 60 * 1000;
+
+    otpStore[email] = { otp, expiresAt };
+
+    // 🔥 YAHI LINE ADD KARNI THI (sendMail se pehle)
+    await transporter.verify();
+    console.log("✅ SMTP connected");
+
     await transporter.sendMail({
-      from: process.env.FROM_EMAIL,
+      from: {
+        name: "Target Bio Classes",
+        address: "targetbiootp@gmail.com",
+      },
       to: email,
       subject: "Your OTP - Target Bio Classes",
       html: `
@@ -182,14 +201,15 @@ app.post("/send-otp", async (req, res) => {
       `,
     });
 
-    console.log("OTP SENT:", email, otp);
-
+    console.log("✅ OTP sent:", email, otp);
     res.json({ success: true, message: "OTP sent successfully" });
+
   } catch (err) {
-    console.error("EMAIL ERROR:", err);
-    res.status(500).json({ success: false, message: "Failed to send OTP" });
+    console.error("❌ OTP ERROR:", err);
+    res.status(500).json({ message: "Failed to send OTP" });
   }
 });
+
 
 /* ================= VERIFY OTP ================= */
 app.post("/verify-otp", (req, res) => {
@@ -320,11 +340,15 @@ app.post("/admission", upload.single("paymentProof"), async (req, res) => {
   fs.writeFileSync(admissionsFile, JSON.stringify(admissions, null, 2));
   
   await transporter.sendMail({
-    to: email,
-    subject: "Admission Submitted – Target Bio Classes",
-    html: `<p>Dear ${name}, your admission is under review.</p>`
-  });
-  
+  from: {
+    name: "Target Bio Classes",
+    address: "targetbiootp@gmail.com",
+  },
+  to: email,
+  subject: "Admission Submitted – Target Bio Classes",
+  html: `<p>Dear ${name}, your admission is under review.</p>`
+});
+
   res.json({ message: "Admission submitted" });
 });
 
